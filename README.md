@@ -1,7 +1,7 @@
 # A simple blog manager for github
 Yet another github blog design.
 
-# Feel Free to reuse for your own blogs
+### Feel Free to reuse for your own blogs
 
 ## TODO
 - make posts schema valid
