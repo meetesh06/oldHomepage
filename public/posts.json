@@ -1,42 +1,34 @@
 {
-  "categories": ["cat-1", "cat-2", "cat-3", "cat-4", "cat-5", "cat-5", "cat-5", "cat-5", "cat-5"],
+  "categories": ["Paradigms of programming", "Compilers", "React", "Life"],
   "posts": [
     {
-      "id": "101",
-      "category": "cat-1",
-      "lineage": "batman",
-      "title": "Hello World Post 4",
-      "description": "This is a dummy post",
-      "created": "07-02-2021",
-      "link": "/posts/pst1.md",
+      "id": "3",
+      "category": "React",
+      "lineage": "How this blog works",
+      "title": "How this blog was crudely put together in one weekend.",
+      "description": "I haven't used react in a long time, my code might look really stupid, but it works. hopefully this blog's design improves with time and you will get to learn a few things along the way.",
+      "created": "02-09-2021",
+      "link": "/posts/3.md",
       "backup": ""
     },
     {
-      "id": "102",
-      "category": "cat-2",
-      "title": "Hello World Post 3",
-      "description": "This is a dummy post",
-      "created": "06-02-2021",
-      "link": "/posts/pst1.md",
+      "id": "2",
+      "category": "Paradigms of programming",
+      "lineage": "Scheme Language Lineage",
+      "title": "The scheme's of the Scheme programming language.",
+      "description": "This is the parent post of Scheme language lineage.",
+      "created": "02-09-2021",
+      "link": "/posts/2.md",
       "backup": ""
     },
     {
-      "id": "103",
-      "category": "cat-1",
-      "title": "Hello World Post 2",
-      "description": "This is a dummy post",
-      "created": "05-02-2021",
-      "link": "/posts/pst1.md",
-      "backup": ""
-    },
-    {
-      "id": "104",
-      "category": "cat-1",
-      "title": "Hello World Post 1",
-      "lineage": "batman",
-      "description": "This is a dummy post",
-      "created": "04-02-2021",
-      "link": "/posts/pst1.md",
+      "id": "1",
+      "category": "Compilers",
+      "lineage": "R Compiler Saga",
+      "title": "R Melts Brain Lineage",
+      "description": "This is the parent post for the R melts brain research paper.",
+      "created": "02-09-2021",
+      "link": "/posts/1.md",
       "backup": ""
     }
   ] 

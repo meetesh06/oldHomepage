@@ -78,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
   markdownHolder: {
     // padding: theme.spacing(2)
   },
+  markdownImageHolder: {
+    margin: theme.spacing(3)
+  },
   markdownImage: {
     maxWidth: '100%'
   }
@@ -105,7 +108,7 @@ function HomeContent(props) {
 
 
   const renderPostFromLink = (link) => {
-    axios.get("/Blog/"+link)
+    axios.get(link)
       .then((response) => {
         if(!animationDone) {
           setAnimationBuffer(response.data);
@@ -125,27 +128,17 @@ function HomeContent(props) {
   }
 
   React.useEffect(() => {
-    axios.get('/Blog/posts.json')
+    axios.get('/posts.json')
       .then(function (response) {
         if(response.data.posts.length === 0) {
           setLoadingPost(false);
           setFound(false);
         } else {
-          const post = JSONPath({path: `$.posts[?(@.id === '${id}')]`, json: response.data})
           if(post.length < 1) {
             setLoadingPost(false);
             setFound(false);
           } else {
             setFound(true);
-            if(post[0].lineage !== undefined) {
-              const lineageList = JSONPath({path: `$.posts[?(@.lineage === '${post[0].lineage}')]`, json: response.data});
-              lineageList.sort(sortPosts);
-              props.setLineage({list: lineageList, id, name: post[0].lineage});
-            } else {
-              props.setLineage({});
-            }
-            setPostMetaData(post[0]);
-            renderPostFromLink(post[0].link);
           }
         }
         
@@ -165,51 +158,21 @@ function HomeContent(props) {
     </div>
   )
 
-  function ImageRenderer(props) {
-    return <img {...props} className={classes.markdownImage} />
-  }
-  
-
-  const renderers = {
-    math: ({value}) => <Tex block math={value} />,
-    inlineMath: ({value}) => <Tex math={value} />,
-    code: ({language, value}) => {
-      return <SyntaxHighlighter wrapLongLines wrapLines style={xonokai} language={language} children={value} />
-    },
-    image: ImageRenderer
-  }
-
   const pageVariants = {
     in: {
-      y: 0
+      opacity: 1,
+      scale: 1,
     },
     out: {
-      y: "100vh"
+      opacity: 0,
+      scale: 0.8,
     }
   }
 
   const pageTransitions = {
-    duration: .5,
+    duration: .3,
     type: "backInOut",
   }
-
-  // const handleScroll = () => {
-  //   let ele = document.getElementById("main-holder");
-  //   let height = ele.scrollHeight - ele.clientHeight;
-  //   let curr = ele.scrollTop;
-  //   let calc = height - curr;
-  //   let scrollPrecent = 100 - calc/(height/100);
-  //   setScrollProgress(scrollPrecent);
-  // }
-
-  // React.useEffect(() => {
-  //   document.getElementById("main-holder").addEventListener('scroll', handleScroll);
-
-  //   // cleanup this component
-  //   return () => {
-  //     document.getElementById("main-holder").removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
 
   return(
     <motion.div

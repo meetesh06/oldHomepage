@@ -1,10 +1,13 @@
 const blogConfig = {
     blogName: "My First Blog",
-    blogDescription: "This blog deals with my research progress at I.I.T Mandi M.S program, expect content related to compilers, react, books, etc...",
-    authorName: "Meetesh Mehta",
+    blogDescription: "This is a simple react based github blog design for everyone",
+    authorName: "Mahatma Gandhi",
     authorEmail: "meeteshmehta4@gmail.com",
-    authorImage: "/Blog/blog-pic.jpg",
-    authorDescription: "I am interested in music, long walks and computers. I don't really use any social media, better to drop me ten emails than to get an answer elsewhere.",
+    authorImage: "https://images.newindianexpress.com/uploads/user/imagelibrary/2019/10/6/w900X450/GANDHIAN12.jpg",
+    authorDescription:
+    " One rupee can purchase for us poison \
+    or nectar, but knowledge or devotion cannot buy us salvation or bondage. \
+    These are not media of exchange. They are themselves the thing we want.",
     sidebarTheme: {
         blogLeftDrawerBackground: "#2a2a2a",
         blogLogo: "#fff",

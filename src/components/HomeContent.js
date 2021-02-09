@@ -49,7 +49,7 @@ function HomeContent(props) {
   }
 
   React.useEffect(() => {
-    axios.get('/posts.json')
+    axios.get('/Blog/posts.json')
       .then(function (response) {
         if(response.data.posts.length === 0) {
           setNoPost(true);
