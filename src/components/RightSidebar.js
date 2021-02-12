@@ -58,7 +58,6 @@ function RightSidebar(props) {
   const [open, setOpen] = React.useState(true);
   
   function calculateLineage() {
-    console.log("RIGHT: ", post);
     if(post !== null && post !== undefined && post.lineage !== undefined) {
       const lineageList = JSONPath({path: `$.posts[?(@.lineage === '${post.lineage}')]`, json: posts});
       lineageList.sort(sortPosts);

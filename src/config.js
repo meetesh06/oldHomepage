@@ -6,8 +6,8 @@ const blogConfig = {
     authorEmail: "meeteshmehta4@gmail.com",
     authorImage: "/Blog/blog-pic.jpg",
     authorDescription: "I am interested in music, long walks and computers. I don't really use any social media, better to drop me ten emails than to get an answer elsewhere.",
-    URI_POSTS: "/blog/posts.json",
-    URI_POST_FILES: "/blog/posts",
+    URI_POSTS: "/Blog/posts/posts.json",
+    URI_POST_FILES: "/Blog/posts",
     sidebarTheme: {
         blogLeftDrawerBackground: "#2a2a2a",
         blogLogo: "#fff",

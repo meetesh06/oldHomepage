@@ -24,8 +24,6 @@ import {
 
 import BLOG from '../config';
 
-console.log()
-
 const leftDrawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({

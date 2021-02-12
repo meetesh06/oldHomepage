@@ -4,6 +4,7 @@ const parsePostUrl = (id, title) => {
 
 const nonCachedRequest = (url) => {
   return url+'?timestamp='+new Date().getTime();
+  // return url;
 }
 
 function sortPosts(a, b) {
