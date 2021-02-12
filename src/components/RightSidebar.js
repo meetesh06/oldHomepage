@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
+import { sortPosts } from './helper';
 
-import axios from 'axios';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -19,10 +19,17 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Nature from '@material-ui/icons/Nature';
 import Collapse from '@material-ui/core/Collapse';
+import {JSONPath} from 'jsonpath-plus';
 
 import {
   Link
 } from "react-router-dom";
+
+import { parsePostUrl } from './helper';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCurrentPost } from '../features/currentPostSlice';
+import { getPostsJson } from '../features/allPostsSlice';
+
 
 const BLOG = {
   rightDrawerWidth: 300
@@ -44,21 +51,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function RightSidebar(props) {
-  const classes = useStyles();
-  const lineageData = props.lineage;
+  const classes = useStyles();  
+  const posts = useSelector(getPostsJson);
+  const post = useSelector(selectCurrentPost);
 
   const [open, setOpen] = React.useState(true);
-  const [data, setData] = React.useState("");
+  
+  function calculateLineage() {
+    console.log("RIGHT: ", post);
+    if(post !== null && post !== undefined && post.lineage !== undefined) {
+      const lineageList = JSONPath({path: `$.posts[?(@.lineage === '${post.lineage}')]`, json: posts});
+      lineageList.sort(sortPosts);
+      return {list: lineageList, id: post.id, name: post.lineage};
+    } else {
+      return {};
+    }
+  }
 
-  React.useEffect(() => {
-    axios.get('http://numbersapi.com/'+Math.floor(Math.random() * 1000))
-      .then(function (response) {
-        setData(response.data);
-      })
-      .catch(function (error) {
-        setData("Homer says D'Oh");
-      })
-  }, []);
+  const lineageData = calculateLineage();
 
   const handleClick = () => {
     setOpen(!open);
@@ -70,10 +80,7 @@ function RightSidebar(props) {
         <Card className={classes.root}>
           <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
-                Fact of the do'h
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {data}
+                Site is still under development, if you find any bugs please drop an email. Thank you.
               </Typography>
           </CardContent>
         </Card>
@@ -93,7 +100,7 @@ function RightSidebar(props) {
                   {
                     lineageData.list.map((post, index) => {
                       return (
-                        <ListItem key={"lineage-"+index} component={Link} to={`/post/${post.id}/${post.title}`} selected={post.id === lineageData.id} button>
+                        <ListItem key={"lineage-"+index} component={Link} to={parsePostUrl(post.id, post.title)} selected={post.id === lineageData.id} button>
                           <ListItemAvatar>
                             <Avatar>
                               <Nature style={{ color: post.id === lineageData.id ? "green" : "gray" }}/>

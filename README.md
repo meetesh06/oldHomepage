@@ -3,10 +3,12 @@ Yet another github blog design.
 
 ### Feel Free to reuse for your own blogs
 
+- improve state management (avoid duplication) -> REDUX managed
+- refactor code -> never complete innit
+
 ## TODO
-- make posts schema valid
-- improve state management (avoid duplication) maybe redux ?
-- refactor code
+- show index for posts 
+- make posts schema.org valid 
 - add reading time
 - implement inbuilt dictionary
 - ..etc

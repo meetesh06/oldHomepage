@@ -1,10 +1,13 @@
 const blogConfig = {
+    blogRoot: "/Blog",
     blogName: "My First Blog",
     blogDescription: "This blog deals with my research progress at I.I.T Mandi M.S program, expect content related to compilers, react, books, etc...",
     authorName: "Meetesh Mehta",
     authorEmail: "meeteshmehta4@gmail.com",
     authorImage: "/Blog/blog-pic.jpg",
     authorDescription: "I am interested in music, long walks and computers. I don't really use any social media, better to drop me ten emails than to get an answer elsewhere.",
+    URI_POSTS: "/blog/posts.json",
+    URI_POST_FILES: "/blog/posts",
     sidebarTheme: {
         blogLeftDrawerBackground: "#2a2a2a",
         blogLogo: "#fff",

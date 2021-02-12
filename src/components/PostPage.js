@@ -22,6 +22,7 @@ import Chip from '@material-ui/core/Chip';
 
 import Tooltip from '@material-ui/core/Tooltip';
 
+import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
@@ -32,6 +33,13 @@ import {
 import {
   motion
 } from 'framer-motion';
+import BLOG from '../config';
+import { nonCachedRequest } from './helper';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCurrentPost } from '../features/currentPostSlice';
+import { getPostsJson } from '../features/allPostsSlice';
+
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {
@@ -44,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(6),
-    
+    minHeight: '50vh',
     fontFamily: 'Roboto',
     "& a": {
       textDecoration: "none",
@@ -80,81 +88,70 @@ const useStyles = makeStyles((theme) => ({
   },
   markdownImage: {
     maxWidth: '100%'
+  },
+  loader: {
+    alignSelf: 'center'
   }
 }));
 
 function HomeContent(props) {
-  const { id } = useParams();
   const classes = useStyles();
+  
+  const { idRaw } = useParams();
+  const id = idRaw.split('-')[0];
+
+  const dispatch = useDispatch();
+  const posts = useSelector(getPostsJson);
+  
   const [loadingPost, setLoadingPost] = React.useState(true);
-  // const [scrollProgress, setScrollProgress] = React.useState(0);
   const [postMetaData, setPostMetaData] = React.useState(null);
   const [postData, setPostData] = React.useState("");
   const [found, setFound] = React.useState(false);
-
-
   const [animationDone, setAnimationDone] = React.useState(false);
-
   const [animationBuffer, setAnimationBuffer] = React.useState(null);
+  const [progress, setProgress] = React.useState(50);
 
   React.useEffect(() => {
     if(!animationDone) return;
     setPostData(animationBuffer);
-    setLoadingPost(false);  
+    setLoadingPost(false);
   }, [animationDone]);
 
-
-  const renderPostFromLink = (link) => {
-    axios.get("/Blog/"+link)
-      .then((response) => {
-        if(!animationDone) {
-          setAnimationBuffer(response.data);
-        } else {
-          setPostData(response.data);
-          setLoadingPost(false);  
-        }
-      })
-      .catch((err) => {
-        setLoadingPost(false);
-        setFound(false);
-      })
-  }
-
-  function sortPosts(a, b) {
-    return new Date(b.created).getTime() - new Date(a.created).getTime();
-  }
-
   React.useEffect(() => {
-    axios.get('/Blog/posts.json')
-      .then(function (response) {
-        if(response.data.posts.length === 0) {
+    const renderPostFromLink = (link) => {
+      axios.get(nonCachedRequest(BLOG.URI_POST_FILES+'/'+link, {
+        onDownloadProgress : progressEvent => {
+          if (!progressEvent.lengthComputable) return;
+          let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setProgress(percentCompleted);
+        }
+      }))
+        .then((response) => {
+          if(!animationDone) {
+            setAnimationBuffer(response.data);
+          } else {
+            setPostData(response.data);
+            setLoadingPost(false);  
+          }
+        })
+        .catch((err) => {
           setLoadingPost(false);
           setFound(false);
-        } else {
-          const post = JSONPath({path: `$.posts[?(@.id === '${id}')]`, json: response.data})
-          if(post.length < 1) {
-            setLoadingPost(false);
-            setFound(false);
-          } else {
-            setFound(true);
-            if(post[0].lineage !== undefined) {
-              const lineageList = JSONPath({path: `$.posts[?(@.lineage === '${post[0].lineage}')]`, json: response.data});
-              lineageList.sort(sortPosts);
-              props.setLineage({list: lineageList, id, name: post[0].lineage});
-            } else {
-              props.setLineage({});
-            }
-            setPostMetaData(post[0]);
-            renderPostFromLink(post[0].link);
-          }
-        }
-        
-      })
-      .catch(function (error) {
-        setLoadingPost(false);
-        setFound(false);
-      })
-  }, [loadingPost]);
+        })
+    }
+
+    const post = JSONPath({path: `$.posts[?(@.id === '${id}')]`, json: posts})
+
+    if(post.length < 1) {
+      setLoadingPost(false);
+      setFound(false);
+    } else {
+      setFound(true);
+      dispatch(updateCurrentPost(post[0]));
+      setPostMetaData(post[0]);
+      renderPostFromLink(post[0].link);
+    }
+  }, []);
 
   const renderSkeleton = (msg) => (
     <div>
@@ -193,24 +190,6 @@ function HomeContent(props) {
     type: "backInOut",
   }
 
-  // const handleScroll = () => {
-  //   let ele = document.getElementById("main-holder");
-  //   let height = ele.scrollHeight - ele.clientHeight;
-  //   let curr = ele.scrollTop;
-  //   let calc = height - curr;
-  //   let scrollPrecent = 100 - calc/(height/100);
-  //   setScrollProgress(scrollPrecent);
-  // }
-
-  // React.useEffect(() => {
-  //   document.getElementById("main-holder").addEventListener('scroll', handleScroll);
-
-  //   // cleanup this component
-  //   return () => {
-  //     document.getElementById("main-holder").removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
   return(
     <motion.div
       initial="out"
@@ -220,9 +199,6 @@ function HomeContent(props) {
       transition={pageTransitions}
       onAnimationComplete={()=>setAnimationDone(true)}
     >
-      {/* <div className={classes.progressHolder}>
-        <LinearProgress variant="determinate" value={scrollProgress} />
-      </div> */}
 
       <div className={classes.actionBar}>
         <Tooltip title="Go Back" aria-label="go-home" arrow>
@@ -236,8 +212,28 @@ function HomeContent(props) {
 
       <Paper className={classes.paper} elevation={3}>
         {
-          loadingPost ? (renderSkeleton("Loading Post...")) : (
-            !found ? (renderSkeleton("post not found...")) : (
+          !loadingPost && !found ? (renderSkeleton("post not found...")) : (
+            loadingPost ? (
+              found ? (
+                <div>
+                  <Typography className={classes.heading} variant="h2" component="h1">
+                    {postMetaData.title}
+                  </Typography>
+                  <span className={classes.dateHolder}>
+                    <Chip className={classes.categoryName} label={postMetaData.category} />
+                    <Typography className={classes.dateStyle} variant="body2" component="p">
+                      created on {postMetaData.created}
+                    </Typography>
+                  </span>
+                  <Divider className={classes.divider} variant="middle" />
+                  {
+                    progress < 100 ? (<LinearProgress variant="determinate" value={progress} />) : (<br/>)
+                  }
+                </div>
+              ) : (
+                  progress < 100 ? (<LinearProgress variant="determinate" value={progress} />) : (<br/>)
+              )
+            ) : (
               <div>
                 <Typography className={classes.heading} variant="h2" component="h1">
                   {postMetaData.title}
@@ -255,7 +251,7 @@ function HomeContent(props) {
               </div>
             )
           )
-        }        
+        }
       </Paper>
     </motion.div>
   );

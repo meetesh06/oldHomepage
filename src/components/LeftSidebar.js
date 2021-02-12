@@ -13,6 +13,11 @@ import SimpleLink from '@material-ui/core/Link';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
+import { useSelector, useDispatch } from 'react-redux';
+import { selectVisiblity, updateVisiblity } from '../features/sidebarState';
+
+
+
 import {
   Link
 } from "react-router-dom";
@@ -85,8 +90,13 @@ const useStyles = makeStyles((theme) => ({
 function LeftSidebar(props) {
   const { window } = props;
   const classes = useStyles();
-  const mobileOpen = props.mobileOpen;
   const container = window !== undefined ? () => window().document.body : undefined;
+  const mobileOpen =  useSelector(selectVisiblity);
+  const dispatch = useDispatch();
+
+  const handleSidebarToggle = () => {
+    dispatch(updateVisiblity(!mobileOpen));
+  }
 
   const drawer = (
     <div className={classes.leftSide}>
@@ -134,7 +144,7 @@ function LeftSidebar(props) {
           container={container}
           variant="temporary"
           open={mobileOpen}
-          onClose={props.handleDrawerToggle}
+          onClose={handleSidebarToggle}
           classes={{
               paper: classes.drawerPaper,
           }}

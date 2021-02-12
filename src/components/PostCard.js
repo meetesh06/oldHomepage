@@ -9,6 +9,9 @@ import {
   Link
 } from "react-router-dom";
 
+import { parsePostUrl } from './helper';
+
+
 const useStyles = makeStyles((theme) => ({
   date: {
     fontWeight: theme.typography.fontWeightBold,
@@ -36,7 +39,7 @@ function PostCard(props) {
   const post = props.post;
   return(
     <Card className={classes.postContainer}>
-      <CardActionArea className={classes.clickableArea} component={Link} to={`/post/${post.id}/${post.title}`}>
+      <CardActionArea className={classes.clickableArea} component={Link} to={parsePostUrl(post.id, post.title)}>
         <CardContent>
           <Typography className={classes.cardPostTitle} gutterBottom variant="h5" component="h2">
             {post.title}

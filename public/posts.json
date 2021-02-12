@@ -8,7 +8,7 @@
       "title": "How this blog was crudely put together in one weekend.",
       "description": "I haven't used react in a long time, my code might look really stupid, but it works. hopefully this blog's design improves with time and you will get to learn a few things along the way.",
       "created": "02-09-2021",
-      "link": "/posts/3.md",
+      "link": "3.md",
       "backup": ""
     },
     {
@@ -18,7 +18,7 @@
       "title": "The scheme's of the Scheme programming language.",
       "description": "This is the parent post of Scheme language lineage.",
       "created": "02-09-2021",
-      "link": "/posts/2.md",
+      "link": "2.md",
       "backup": ""
     },
     {
@@ -28,7 +28,7 @@
       "title": "R Melts Brain Lineage",
       "description": "This is the parent post for the R melts brain research paper.",
       "created": "02-09-2021",
-      "link": "/posts/1.md",
+      "link": "1.md",
       "backup": ""
     }
   ] 

@@ -9,6 +9,11 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import {JSONPath} from 'jsonpath-plus';
 import PostCard from './PostCard';
 
+import { useSelector } from 'react-redux';
+import { selectCurrentPost } from '../features/currentPostSlice';
+import { getPostsJson } from '../features/allPostsSlice';
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(2),
@@ -58,81 +63,48 @@ function PostsContainer(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const blogData = props.blogData;
-  const noPost = props.noPost;
-  const loadingPosts = props.loadingPosts;
-  const navigateToPost = props.navigateToPost;
+  const blogData = useSelector(getPostsJson);
 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const renderSkeleton = (msg) => <div>
-    <Tabs value={value} onChange={handleChange} aria-label="lineage selector">
-      <Tab label={msg} {...a11yProps(0)} />
-    </Tabs>
-    <TabPanel value={value} index={0}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
-          <Skeleton animation="wave" height={150}/>
-          <Skeleton height={50}/>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Skeleton animation="wave" height={150}/>
-          <Skeleton height={50}/>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Skeleton animation="wave" height={150}/>
-          <Skeleton height={50}/>
-        </Grid>
-      </Grid>
-    </TabPanel>
-  </div> 
-
-  // console.log(blogData.categories);
   return(
     <div className={classes.root}>
-      {
-        loadingPosts ? (renderSkeleton("loading...")) :
-        (noPost ? (renderSkeleton("No Posts Found...")) : (
-          <div>
-              <div className={classes.tabContainer}>
-                <Tabs
-                  variant="scrollable"
-                  scrollButtons="on"
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="lineage selector">
+      <div>
+          <div className={classes.tabContainer}>
+            <Tabs
+              variant="scrollable"
+              scrollButtons="on"
+              value={value}
+              onChange={handleChange}
+              aria-label="lineage selector">
+              {
+                blogData.categories.map((label, index) => (
+                  <Tab key={index+"tab-section"} label={label} {...a11yProps(index)} />
+                ))
+              }
+            </Tabs>
+          </div>
+        {
+          blogData.categories.map((label, index) => {
+            return (
+              <TabPanel value={value} index={index} key={index+"tab"}>
+                <Grid container spacing={0}>
                   {
-                    blogData.categories.map((label, index) => (
-                      <Tab key={index+"tab-section"} label={label} {...a11yProps(index)} />
+                    JSONPath({path: `$.posts[?(@.category === '${label}')]`, json: blogData}).map((post) => (
+                      <Grid item xs={12} sm={4} key={post.id}>
+                        <PostCard post={post}/>
+                      </Grid>
                     ))
                   }
-                </Tabs>
-              </div>
-
-            {
-              blogData.categories.map((label, index) => {
-                return (
-                  <TabPanel value={value} index={index} key={index+"tab"}>
-                    <Grid container spacing={0}>
-                      {
-                        JSONPath({path: `$.posts[?(@.category === '${label}')]`, json: blogData}).map((post) => (
-                          <Grid item xs={12} sm={4} key={post.id}>
-                            <PostCard post={post}/>
-                          </Grid>
-                        ))
-                      }
-                    </Grid>
-                  </TabPanel>
-                );
-              })
-              
-            }
-          </div>
-        ))
-      }
+                </Grid>
+              </TabPanel>
+            );
+          })
+        }
+      </div>
     </div>
   );
 }

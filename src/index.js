@@ -5,11 +5,15 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 
+import { Provider } from 'react-redux';
+
+import store from './store';
+
 ReactDOM.render(
-  <Router basename={process.env.PUBLIC_URL}>
-    <React.StrictMode>
+  <Provider store={store}>
+    <Router basename={process.env.PUBLIC_URL}>
       <App />
-    </React.StrictMode>
-  </Router>,
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );

@@ -32,6 +32,9 @@ import {
 import {
   motion
 } from 'framer-motion';
+import BLOG from '../config';
+
+import {nonCachedRequest} from './helper';
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {
@@ -128,7 +131,7 @@ function HomeContent(props) {
   }
 
   React.useEffect(() => {
-    axios.get('/posts.json')
+    axios.get(nonCachedRequest(BLOG.URI_POSTS))
       .then(function (response) {
         if(response.data.posts.length === 0) {
           setLoadingPost(false);
