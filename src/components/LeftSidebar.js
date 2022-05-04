@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   siteDescription: {
     ...theme.typography.body2,
     color: theme.blogDescription,
-    fontSize: "0.8rem"
+    fontSize: "1rem"
   },
   avatarContainer: {
     display: "flex",
@@ -68,12 +68,14 @@ const useStyles = makeStyles((theme) => ({
   largeAvatar: {
     width: leftDrawerWidth - 150,
     height: leftDrawerWidth - 150,
+    alignSelf: "center",
   },
   authorName: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
     color: theme.authorName,
     fontWeight: theme.typography.fontWeightRegular,
+    alignSelf: "center",
   },
   authorDes: {
     ...theme.typography.caption,
@@ -111,6 +113,7 @@ function LeftSidebar(props) {
       <div>
         <div className={classes.avatarContainer}>
           <Avatar
+            align="center"
             alt={BLOG.authorName + "'s picture"}
             src={BLOG.authorImage}
             className={classes.largeAvatar} />

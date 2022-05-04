@@ -94,6 +94,27 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+const LoadingHeader = (postMetaData) => {
+  const classes = useStyles();
+
+  return(
+    <div>
+      <Typography className={classes.heading} variant="h2" component="h1">
+        {postMetaData.title}
+      </Typography>
+      <span className={classes.dateHolder}>
+        <Chip className={classes.categoryName} label={postMetaData.category} />
+        <Typography className={classes.dateStyle} variant="body2" component="p">
+          created on {postMetaData.created}
+        </Typography>
+      </span>
+      <Divider className={classes.divider} variant="middle" />
+    </div>
+  );
+
+}
+
 function HomeContent(props) {
   const classes = useStyles();
   
@@ -107,58 +128,59 @@ function HomeContent(props) {
   const [postMetaData, setPostMetaData] = React.useState(null);
   const [postData, setPostData] = React.useState("");
   const [found, setFound] = React.useState(false);
-  const [animationDone, setAnimationDone] = React.useState(false);
-  const [animationBuffer, setAnimationBuffer] = React.useState(null);
-  const [progress, setProgress] = React.useState(50);
 
-  React.useEffect(() => {
-    if(!animationDone) return;
-    setPostData(animationBuffer);
+  const smoothLoadingEnd = () => {
     setLoadingPost(false);
-  }, [animationDone]);
+  }
 
   React.useEffect(() => {
     const renderPostFromLink = (link) => {
-      axios.get(nonCachedRequest(BLOG.URI_POST_FILES+'/'+link, {
-        onDownloadProgress : progressEvent => {
-          if (!progressEvent.lengthComputable) return;
-          let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setProgress(percentCompleted);
-        }
-      }))
+      axios.get(nonCachedRequest(BLOG.URI_POST_FILES+'/'+link, {}))
         .then((response) => {
-          if(!animationDone) {
-            setAnimationBuffer(response.data);
-          } else {
-            setPostData(response.data);
-            setLoadingPost(false);  
-          }
+          let post = response.data
+          var lines = post.split('\n');
+          // get rid of the metadata comments
+          lines.splice(0,5);
+          var newtext = lines.join('\n');
+
+          setPostData(newtext);
         })
         .catch((err) => {
-          setLoadingPost(false);
           setFound(false);
+        })
+        .finally(() => {
+          smoothLoadingEnd();
         })
     }
 
     const post = JSONPath({path: `$.posts[?(@.id === '${id}')]`, json: posts})
 
     if(post.length < 1) {
-      setLoadingPost(false);
+      smoothLoadingEnd();
       setFound(false);
     } else {
       setFound(true);
       dispatch(updateCurrentPost(post[0]));
       setPostMetaData(post[0]);
+      
+      // // during debugging, simulate network load time
+      // setTimeout(function() {
+      //   renderPostFromLink(post[0].link);
+      //   //your code to be executed after 1 second
+      // }, 1500);
+
       renderPostFromLink(post[0].link);
+
+      
     }
   }, []);
 
   const renderSkeleton = (msg) => (
     <div>
-      <Typography gutterBottom variant="h5" component="h2">
+      <Typography gutterBottom variant="h6" component="h2">
         {msg}
       </Typography>
-      <Skeleton variant="rect" width={"100%"} height={"60vh"} />
+      <Skeleton style={{borderRadius: 5}} variant="rect" width={"100%"} height={"60vh"} />
     </div>
   )
 
@@ -191,13 +213,13 @@ function HomeContent(props) {
   }
 
   return(
+    loadingPost ? <LinearProgress variant="indeterminate" /> :
     <motion.div
       initial="out"
       animate="in"
       exit="out"
       variants={pageVariants}
       transition={pageTransitions}
-      onAnimationComplete={()=>setAnimationDone(true)}
     >
 
       <div className={classes.actionBar}>
@@ -212,45 +234,24 @@ function HomeContent(props) {
 
       <Paper className={classes.paper} elevation={3}>
         {
-          !loadingPost && !found ? (renderSkeleton("post not found...")) : (
-            loadingPost ? (
-              found ? (
-                <div>
-                  <Typography className={classes.heading} variant="h2" component="h1">
-                    {postMetaData.title}
-                  </Typography>
-                  <span className={classes.dateHolder}>
-                    <Chip className={classes.categoryName} label={postMetaData.category} />
-                    <Typography className={classes.dateStyle} variant="body2" component="p">
-                      created on {postMetaData.created}
-                    </Typography>
-                  </span>
-                  <Divider className={classes.divider} variant="middle" />
-                  {
-                    progress < 100 ? (<LinearProgress variant="determinate" value={progress} />) : (<br/>)
-                  }
-                </div>
-              ) : (
-                  progress < 100 ? (<LinearProgress variant="determinate" value={progress} />) : (<br/>)
-              )
-            ) : (
-              <div>
-                <Typography className={classes.heading} variant="h2" component="h1">
-                  {postMetaData.title}
+          !found ? (renderSkeleton("Post not found, please drop an email so I can have a look at this 👻 Thank you")) : 
+            loadingPost ? <LoadingHeader postMetaData={postMetaData} /> :
+          
+            <div>
+              <Typography className={classes.heading} variant="h2" component="h1">
+                {postMetaData.title}
+              </Typography>
+              <span className={classes.dateHolder}>
+                <Chip className={classes.categoryName} label={postMetaData.category} />
+                <Typography className={classes.dateStyle} variant="body2" component="p">
+                  created on {postMetaData.created}
                 </Typography>
-                <span className={classes.dateHolder}>
-                  <Chip className={classes.categoryName} label={postMetaData.category} />
-                  <Typography className={classes.dateStyle} variant="body2" component="p">
-                    created on {postMetaData.created}
-                  </Typography>
-                </span>
-                <Divider className={classes.divider} variant="middle" />
-                <ReactMarkdown className={classes.markdownHolder} plugins={[math]} renderers={renderers}>
-                  {postData}
-                </ReactMarkdown>
-              </div>
-            )
-          )
+              </span>
+              <Divider className={classes.divider} variant="middle" />
+              <ReactMarkdown className={classes.markdownHolder} plugins={[math]} renderers={renderers}>
+                {postData}
+              </ReactMarkdown>
+            </div>
         }
       </Paper>
     </motion.div>
