@@ -153,7 +153,7 @@ function HomeContent(props) {
         })
     }
 
-    const post = JSONPath({path: `$.posts[?(@.id === '${id}')]`, json: posts})
+    const post = JSONPath({path: `$.posts[?(@.id === ${id})]`, json: posts})
 
     if(post.length < 1) {
       smoothLoadingEnd();

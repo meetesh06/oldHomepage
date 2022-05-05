@@ -17,9 +17,11 @@ import Avatar from '@material-ui/core/Avatar';
 import AccountTree from '@material-ui/icons/AccountTree';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import Nature from '@material-ui/icons/Nature';
 import Collapse from '@material-ui/core/Collapse';
 import {JSONPath} from 'jsonpath-plus';
+
+import TurnedInIcon from '@material-ui/icons/TurnedIn';
+import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 
 import {
   Link
@@ -101,9 +103,16 @@ function RightSidebar(props) {
                       return (
                         <ListItem key={"lineage-"+index} component={Link} to={parsePostUrl(post.id, post.title)} selected={post.id === lineageData.id} button>
                           <ListItemAvatar>
-                            <Avatar>
-                              <Nature style={{ color: post.id === lineageData.id ? "green" : "gray" }}/>
-                            </Avatar>
+                            {
+                              post.id === lineageData.id ?
+                              <Avatar >
+                                <TurnedInIcon />
+                              </Avatar> :
+                              <Avatar >
+                                <TurnedInNotIcon />
+                              </Avatar>  
+
+                            }
                           </ListItemAvatar>
                           <ListItemText
                             primary={post.title}
