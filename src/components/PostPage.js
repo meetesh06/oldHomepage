@@ -40,6 +40,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateCurrentPost } from '../features/currentPostSlice';
 import { getPostsJson } from '../features/allPostsSlice';
 
+import { selectSecret } from '../features/secretState';
+
+
+import Crypto from "crypto-js";
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {
@@ -129,15 +133,24 @@ function HomeContent(props) {
   const [postData, setPostData] = React.useState("");
   const [found, setFound] = React.useState(false);
 
+  const secretPass = useSelector(selectSecret);
+
   const smoothLoadingEnd = () => {
     setLoadingPost(false);
   }
 
   React.useEffect(() => {
-    const renderPostFromLink = (link) => {
-      axios.get(nonCachedRequest(BLOG.URI_POST_FILES+'/'+link, {}))
+    const renderPostFromLink = (meta) => {
+      axios.get(nonCachedRequest(BLOG.URI_POST_FILES+'/'+meta.link, {}))
         .then((response) => {
           let post = response.data
+          
+          if (meta.category === "Secret") {
+            var bytes  = Crypto.AES.decrypt(post, secretPass);
+            // If the encoding fails, we know for sure it was a wrong password, hence the catch case will set the not found flag to true
+            post = bytes.toString(Crypto.enc.Utf8);
+          }
+
           var lines = post.split('\n');
           // get rid of the metadata comments
           lines.splice(0,5);
@@ -153,25 +166,39 @@ function HomeContent(props) {
         })
     }
 
-    const post = JSONPath({path: `$.posts[?(@.id === ${id})]`, json: posts})
+    let post = JSONPath({path: `$.posts[?(@.id === ${id})]`, json: posts})
+    let secret = false;
+    if(post.length < 1) {
+      secret = true;
+      if (!secretPass) {
+        smoothLoadingEnd();
+        setFound(false);
+        return;
+      }
+      post = JSONPath({path: `$.secrets[?(@.id === ${id})]`, json: posts})
+    }
 
     if(post.length < 1) {
       smoothLoadingEnd();
       setFound(false);
     } else {
-      setFound(true);
-      dispatch(updateCurrentPost(post[0]));
-      setPostMetaData(post[0]);
+      // console.log(post[0])
+      if (!secret) {
+        dispatch(updateCurrentPost(post[0]));
+      }
+      let meta = post[0]
+      setPostMetaData(meta);
       
       // // during debugging, simulate network load time
       // setTimeout(function() {
-      //   renderPostFromLink(post[0].link);
-      //   //your code to be executed after 1 second
-      // }, 1500);
-
-      renderPostFromLink(post[0].link);
-
-      
+        //   renderPostFromLink(post[0].link);
+        //   //your code to be executed after 1 second
+        // }, 1500);
+        
+        renderPostFromLink(meta);
+        
+        
+        setFound(true);
     }
   }, []);
 

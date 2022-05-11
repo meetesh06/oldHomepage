@@ -7,6 +7,7 @@ export const allPostsSlice = createSlice({
   },
   reducers: {
     updatePostsJson: (state, action) => {
+      // console.log("updatePostsJson", action.payload);
       state.postsJson = action.payload;
     }
   }
