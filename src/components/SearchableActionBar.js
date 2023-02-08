@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/lab/Autocomplete';
+import { Autocomplete } from '@mui/material';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getPostsJson } from '../features/allPostsSlice';

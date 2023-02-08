@@ -1,5 +1,4 @@
 import React from 'react';
-import { adaptV4Theme } from '@mui/material/styles';
 
 import { makeStyles } from '@mui/styles';
 
@@ -12,7 +11,7 @@ import CircularProgressWithLabel from './components/CircularProgressWithLabel';
 
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import BLOG from './config';
-import { createMuiTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 import axios from 'axios';
 
@@ -80,12 +79,12 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const lightTheme = createMuiTheme(adaptV4Theme({
+const lightTheme = createTheme({
   ...BLOG.sidebarTheme,
   palette: {
     ...BLOG.light
   }
-}))
+})
 
 function ResponsiveDrawer(props) {
   const [loadingPosts, setLoadingPosts] = React.useState(true);
