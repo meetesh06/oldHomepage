@@ -1,30 +1,30 @@
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import {JSONPath} from 'jsonpath-plus';
 import ReactMarkdown from 'react-markdown';
 import Tex from '@matejmazur/react-katex'
 import math from 'remark-math'
 import 'katex/dist/katex.min.css'
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 
 import {
   useParams
 } from "react-router-dom";
 
 import axios from 'axios';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Skeleton from '@mui/lab/Skeleton';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 
-import LinearProgress from '@material-ui/core/LinearProgress';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import LinearProgress from '@mui/material/LinearProgress';
+import IconButton from '@mui/material/IconButton';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 
 import {
   Link
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     "& a": {
       textDecoration: "none",
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
       marginTop: theme.spacing(1),
@@ -207,7 +207,7 @@ function HomeContent(props) {
       <Typography gutterBottom variant="h6" component="h2">
         {msg}
       </Typography>
-      <Skeleton style={{borderRadius: 5}} variant="rect" width={"100%"} height={"60vh"} />
+      <Skeleton style={{borderRadius: 5}} variant="rectangular" width={"100%"} height={"60vh"} />
     </div>
   )
 
@@ -239,50 +239,48 @@ function HomeContent(props) {
     type: "backInOut",
   }
 
-  return(
-    loadingPost ? <LinearProgress variant="indeterminate" /> :
-    <motion.div
-      initial="out"
-      animate="in"
-      exit="out"
-      variants={pageVariants}
-      transition={pageTransitions}
-    >
+  return loadingPost ? <LinearProgress variant="indeterminate" /> :
+  <motion.div
+    initial="out"
+    animate="in"
+    exit="out"
+    variants={pageVariants}
+    transition={pageTransitions}
+  >
 
-      <div className={classes.actionBar}>
-        <Tooltip title="Go Back" aria-label="go-home" arrow>
-          <Link to="/">
-            <IconButton color="primary" aria-label="go-home">
-              <ArrowBack />
-            </IconButton>
-          </Link>
-        </Tooltip>
-      </div>  
+    <div className={classes.actionBar}>
+      <Tooltip title="Go Back" aria-label="go-home" arrow>
+        <Link to="/">
+          <IconButton color="primary" aria-label="go-home" size="large">
+            <ArrowBack />
+          </IconButton>
+        </Link>
+      </Tooltip>
+    </div>  
 
-      <Paper className={classes.paper} elevation={3}>
-        {
-          !found ? (renderSkeleton("Post not found, please drop an email so I can have a look at this 👻 Thank you")) : 
-            loadingPost ? <LoadingHeader postMetaData={postMetaData} /> :
-          
-            <div>
-              <Typography className={classes.heading} variant="h2" component="h1">
-                {postMetaData.title}
+    <Paper className={classes.paper} elevation={3}>
+      {
+        !found ? (renderSkeleton("Post not found, please drop an email so I can have a look at this 👻 Thank you")) : 
+          loadingPost ? <LoadingHeader postMetaData={postMetaData} /> :
+        
+          <div>
+            <Typography className={classes.heading} variant="h2" component="h1">
+              {postMetaData.title}
+            </Typography>
+            <span className={classes.dateHolder}>
+              <Chip className={classes.categoryName} label={postMetaData.category} />
+              <Typography className={classes.dateStyle} variant="body2" component="p">
+                created on {postMetaData.created}
               </Typography>
-              <span className={classes.dateHolder}>
-                <Chip className={classes.categoryName} label={postMetaData.category} />
-                <Typography className={classes.dateStyle} variant="body2" component="p">
-                  created on {postMetaData.created}
-                </Typography>
-              </span>
-              <Divider className={classes.divider} variant="middle" />
-              <ReactMarkdown className={classes.markdownHolder} plugins={[math]} renderers={renderers}>
-                {postData}
-              </ReactMarkdown>
-            </div>
-        }
-      </Paper>
-    </motion.div>
-  );
+            </span>
+            <Divider className={classes.divider} variant="middle" />
+            <ReactMarkdown className={classes.markdownHolder} plugins={[math]} renderers={renderers}>
+              {postData}
+            </ReactMarkdown>
+          </div>
+      }
+    </Paper>
+  </motion.div>;
 }
 
 export default HomeContent;

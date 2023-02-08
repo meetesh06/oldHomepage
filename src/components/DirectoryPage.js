@@ -1,29 +1,29 @@
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import {JSONPath} from 'jsonpath-plus';
 import ReactMarkdown from 'react-markdown';
 import Tex from '@matejmazur/react-katex'
 import math from 'remark-math'
 import 'katex/dist/katex.min.css'
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 
 import {
   useParams
 } from "react-router-dom";
 
 import axios from 'axios';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Skeleton from '@mui/lab/Skeleton';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import Chip from '@material-ui/core/Chip';
+import Chip from '@mui/material/Chip';
 
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 
-import IconButton from '@material-ui/core/IconButton';
-import ArrowBack from '@material-ui/icons/ArrowBack';
+import IconButton from '@mui/material/IconButton';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 
 import {
   Link
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     "& a": {
       textDecoration: "none",
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
       marginTop: theme.spacing(1),
@@ -157,7 +157,7 @@ function HomeContent(props) {
       <Typography gutterBottom variant="h5" component="h2">
         {msg}
       </Typography>
-      <Skeleton variant="rect" width={"100%"} height={"60vh"} />
+      <Skeleton variant="rectangular" width={"100%"} height={"60vh"} />
     </div>
   )
 
@@ -177,7 +177,7 @@ function HomeContent(props) {
     type: "backInOut",
   }
 
-  return(
+  return (
     <motion.div
       initial="out"
       animate="in"
@@ -193,7 +193,7 @@ function HomeContent(props) {
       <div className={classes.actionBar}>
         <Tooltip title="Go Back" aria-label="go-home" arrow>
           <Link to="/">
-            <IconButton color="primary" aria-label="go-home">
+            <IconButton color="primary" aria-label="go-home" size="large">
               <ArrowBack />
             </IconButton>
           </Link>

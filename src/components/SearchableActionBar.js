@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import Hidden from '@mui/material/Hidden';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/lab/Autocomplete';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getPostsJson } from '../features/allPostsSlice';
@@ -41,7 +41,7 @@ function SearchableActionBar(props) {
     dispatch(updateVisiblity(!toggle));
   }
 
-  return(
+  return (
     <div className={classes.actionBar}>
       <Hidden mdUp implementation="css">
         <IconButton
@@ -49,7 +49,7 @@ function SearchableActionBar(props) {
           aria-label="open drawer"
           edge="start"
           onClick={handleSidebarToggle}
-        >
+          size="large">
           <MenuIcon />
         </IconButton>
       </Hidden>

@@ -1,16 +1,16 @@
 import React from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import Avatar from '@material-ui/core/Avatar';
+import Drawer from '@mui/material/Drawer';
+import Hidden from '@mui/material/Hidden';
+import Avatar from '@mui/material/Avatar';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
 
-import IconButton from '@material-ui/core/IconButton';
-import MailOutline from '@material-ui/icons/MailOutline';
+import IconButton from '@mui/material/IconButton';
+import MailOutline from '@mui/icons-material/MailOutline';
 
-import SimpleLink from '@material-ui/core/Link';
-import Tooltip from '@material-ui/core/Tooltip';
+import SimpleLink from '@mui/material/Link';
+import Tooltip from '@mui/material/Tooltip';
 
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -125,7 +125,7 @@ function LeftSidebar(props) {
           </Typography>
           <Tooltip title={BLOG.authorEmail} aria-label="email" arrow>
             <SimpleLink href={"mailto:"+BLOG.authorEmail}>
-              <IconButton color="primary" aria-label="author-email">
+              <IconButton color="primary" aria-label="author-email" size="large">
                 <MailOutline />
               </IconButton>
             </SimpleLink>
@@ -138,7 +138,6 @@ function LeftSidebar(props) {
   
 
   return (
-
     <nav className={classes.drawer} aria-label="blog details">
       <Hidden smUp implementation="css">
         <Drawer
@@ -156,7 +155,7 @@ function LeftSidebar(props) {
         {drawer}
         </Drawer>
       </Hidden>
-      <Hidden smDown implementation="css">
+      <Hidden mdDown implementation="css">
         <Drawer
           classes={{
             paper: classes.drawerPaper,

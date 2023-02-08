@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Skeleton from '@mui/lab/Skeleton';
 import {JSONPath} from 'jsonpath-plus';
 import PostCard from './PostCard';
 
@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: theme.spacing(2),
     overflow: "hidden",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
       marginTop: theme.spacing(2),
     },
   },
   tabContainer: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       maxWidth: "60vw"
     },
     maxWidth: "40vw"
@@ -70,16 +70,17 @@ function PostsContainer(props) {
     setValue(newValue);
   };
 
-  return(
+  return (
     <div className={classes.root}>
       <div>
           <div className={classes.tabContainer}>
             <Tabs
               variant="scrollable"
-              scrollButtons="on"
+              scrollButtons
               value={value}
               onChange={handleChange}
-              aria-label="lineage selector">
+              aria-label="lineage selector"
+              allowScrollButtonsMobile>
               {
                 blogData.categories.map((label, index) => (
                   <Tab key={index+"tab-section"} label={label} {...a11yProps(index)} />

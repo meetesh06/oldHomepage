@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActionArea from '@mui/material/CardActionArea';
+import { makeStyles } from '@mui/styles';
 
 import { useSelector } from 'react-redux';
 import { selectCurrentPost } from '../features/currentPostSlice';

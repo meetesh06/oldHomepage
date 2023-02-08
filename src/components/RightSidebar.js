@@ -1,27 +1,27 @@
 import React from 'react';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import { makeStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 import { sortPosts } from './helper';
 
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import AccountTree from '@material-ui/icons/AccountTree';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Avatar from '@mui/material/Avatar';
+import AccountTree from '@mui/icons-material/AccountTree';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
 import {JSONPath} from 'jsonpath-plus';
 
-import TurnedInIcon from '@material-ui/icons/TurnedIn';
-import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 
 import {
   Link
@@ -32,9 +32,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentPost } from '../features/currentPostSlice';
 import { getPostsJson } from '../features/allPostsSlice';
 
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
 import { selectSecret, updateSecret } from '../features/secretState';
 import moment from "moment"
 const BLOG = {
@@ -126,7 +126,7 @@ function RightSidebar(props) {
   };
 
   return (
-    <Hidden smDown implementation="css">
+    <Hidden mdDown implementation="css">
       <div className={classes.rightAside}>
         <Card className={classes.root}>
           <CardContent>

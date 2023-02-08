@@ -1,5 +1,7 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { adaptV4Theme } from '@mui/material/styles';
+
+import { makeStyles } from '@mui/styles';
 
 import { nonCachedRequest, sortPosts } from './components/helper';
 import LeftSidebar from './components/LeftSidebar';
@@ -8,19 +10,19 @@ import HomeContent from './components/HomeContent';
 import PostPage from './components/PostPage';
 import CircularProgressWithLabel from './components/CircularProgressWithLabel';
 
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import BLOG from './config';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from '@mui/material/styles';
 
 import axios from 'axios';
 
 import { updatePostsJson } from './features/allPostsSlice';
 import { useDispatch } from 'react-redux';
 
-import Backdrop from '@material-ui/core/Backdrop';
+import Backdrop from '@mui/material/Backdrop';
 
-import Typography from '@material-ui/core/Typography';
-import Skeleton from '@material-ui/lab/Skeleton';
+import Typography from '@mui/material/Typography';
+import Skeleton from '@mui/lab/Skeleton';
 
 
 
@@ -78,12 +80,12 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const lightTheme = createMuiTheme({
+const lightTheme = createMuiTheme(adaptV4Theme({
   ...BLOG.sidebarTheme,
   palette: {
     ...BLOG.light
   }
-})
+}))
 
 function ResponsiveDrawer(props) {
   const [loadingPosts, setLoadingPosts] = React.useState(true);
@@ -135,7 +137,7 @@ function ResponsiveDrawer(props) {
                 <Typography className={classes.heading} variant="h6" component="h2">
                   Blog Under Maintenance, check back later...
                 </Typography>
-                <Skeleton className={classes.skeletonContainer} variant="rect" width={"100%"} height={150} />
+                <Skeleton className={classes.skeletonContainer} variant="rectangular" width={"100%"} height={150} />
               </div>
             ) : (
               <main className={classes.content}>
@@ -161,9 +163,13 @@ function ResponsiveDrawer(props) {
 }
 
 function Main() {
-  return <ThemeProvider theme={lightTheme}>
-    <ResponsiveDrawer/>
-  </ThemeProvider>;
+  return (
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={lightTheme}>
+        <ResponsiveDrawer/>
+      </ThemeProvider>
+    </StyledEngineProvider>
+  );
 }
 
 export default Main;
