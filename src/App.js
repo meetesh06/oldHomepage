@@ -78,17 +78,18 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const lightTheme = createMuiTheme({
+  ...BLOG.sidebarTheme,
+  palette: {
+    ...BLOG.light
+  }
+})
+
 function ResponsiveDrawer(props) {
   const [loadingPosts, setLoadingPosts] = React.useState(true);
   const [progress, setProgress] = React.useState(50);
   const [noPost, setNoPost] = React.useState(false);
 
-  const lightTheme = createMuiTheme({
-    ...BLOG.sidebarTheme,
-    palette: {
-      ...BLOG.light
-    }
-  })
 
   const classes = useStyles();
 
@@ -122,43 +123,47 @@ function ResponsiveDrawer(props) {
 
 
   return (
-    <ThemeProvider theme={lightTheme}>
-      <div className={classes.root}>
-        <Backdrop invisible open={loadingPosts}>
-          <CircularProgressWithLabel value={progress} />
-        </Backdrop>
-        <LeftSidebar />
-        {
-          loadingPosts ? (<div/>) : (
-              noPost ? (
-                <div className={classes.noPostContainer}>
-                  <Typography className={classes.heading} variant="h6" component="h2">
-                    Blog Under Maintenance, check back later...
-                  </Typography>
-                  <Skeleton className={classes.skeletonContainer} variant="rect" width={"100%"} height={150} />
-                </div>
-              ) : (
-                <main className={classes.content}>
-                    <div className={classes.mainContent}>
-                      <AnimatePresence exitBeforeEnter>
-                        <Switch location={loc} key={loc.pathname}>
-                          <Route path="/post-:idRaw">
-                            <PostPage />
-                          </Route>
-                          <Route path="/">
-                            <HomeContent />
-                          </Route>
-                        </Switch>
-                      </AnimatePresence>
-                    </div>
-                    <RightSidebar />
-                </main>
-              )
-          )
-        }
-      </div>
-    </ThemeProvider>
+    <div className={classes.root}>
+      <Backdrop invisible open={loadingPosts}>
+        <CircularProgressWithLabel value={progress} />
+      </Backdrop>
+      <LeftSidebar />
+      {
+        loadingPosts ? (<div/>) : (
+            noPost ? (
+              <div className={classes.noPostContainer}>
+                <Typography className={classes.heading} variant="h6" component="h2">
+                  Blog Under Maintenance, check back later...
+                </Typography>
+                <Skeleton className={classes.skeletonContainer} variant="rect" width={"100%"} height={150} />
+              </div>
+            ) : (
+              <main className={classes.content}>
+                  <div className={classes.mainContent}>
+                    <AnimatePresence exitBeforeEnter>
+                      <Switch location={loc} key={loc.pathname}>
+                        <Route path="/post-:idRaw">
+                          <PostPage />
+                        </Route>
+                        <Route path="/">
+                          <HomeContent />
+                        </Route>
+                      </Switch>
+                    </AnimatePresence>
+                  </div>
+                  <RightSidebar />
+              </main>
+            )
+        )
+      }
+    </div>
   );
 }
 
-export default ResponsiveDrawer;
+function Main() {
+  return <ThemeProvider theme={lightTheme}>
+    <ResponsiveDrawer/>
+  </ThemeProvider>;
+}
+
+export default Main;
