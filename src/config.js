@@ -1,42 +1,48 @@
-const blogConfig = {
-    blogRoot: "/Blog",
-    blogName: "M's Blog",
-    blogDescription: "This blog deals with my research progress at I.I.T Mandi M.S program, expect content related to compilers, react, books, etc...",
-    authorName: "Meetesh K Mehta",
-    authorEmail: "meeteshmehta4@gmail.com",
-    authorImage: "/Blog/blog-pic.jpg",
-    authorDescription: "I am interested in music, long walks and computers. I don't really use any social media, better to drop me ten emails than to get an answer elsewhere.",
-    URI_POSTS: "/Blog/posts/posts.json",
-    URI_POST_FILES: "/Blog/posts",
-    sidebarTheme: {
-        blogLeftDrawerBackground: "#000",
-        blogLogo: "#fff",
-        blogDescription: "#fafafa",
-        authorName: "#fefefe",
-        authorDescription: "#e0e0e0",
-        textTitle: "#a1a1a1",
-        textDesc: "#e0e0e0",
-        textDate: "#a1a1a1",
-    },
-    // THEME
-    dark: {
+export const URI_POSTS = "/posts/posts.json"
+export const URI_POST_FILES = "/posts/"
 
-    },
-    light: {
-        primary: {
-            light: "#7986cb",
-            main: "#3f51b5",
-            dark: "#303f9f",
-            contrastText: "#fff",
-        },
-        secondary: {
-            light: "#ff4081",
-            main: "#f50057",
-            dark: "#c51162",
-            contrastText: "#fff",
-        }
-    }
+export const SITENAME = "Hello World";
+export const IMAGEURI = "/blog-pic.jpg";
+export const USERNAME = "Meetesh Kalpesh Mehta";
+export const ABOUTUSER = "Hey there! I'm a research scholar @IIT Mandi working in the area of compilers.My latest work focuses on a JIT compiler for the R Programming Language where I tackle the problems of warmup times and deoptimization overheads. I also love to code in React, like this website. Apart from computers I also tinker a lot with Raspberry Pi's, Arduinos, etc in my free time.";
 
-}
+export const GETINTOUCHTEXT = "Feel free to get in touch with me regarding anything :)";
+export const CONTACTLINKS = [
+  ["meeteshmehta4@gmail.com","Email"],
+  ["","LinkedIn"],
+];
 
-export default blogConfig;
+export const NEWSITEMS = [
+  ["3rd Feb 2023", "Presented Synopsis Seminar"],
+  ["17nd Nov 2022", "Presented Synopsis Seminar"],
+  ["29th Oct 2022", "Submitted to OOPSLA 2023"],
+  ["15th Feb 2021", "Joined IIT Mandi"]
+];
+
+export const INTERESTS = "I love to go out on long walks and hikes. You will find me listening to music or reading books/articles in my free time. I randomly start new personal projects like making a light controllers using arduino, setting up solar panels around the terrace and so on. If something piques my interest I will give it a shot."
+
+export const SKILLSTEXT = "I find myself comfortable in"
+
+export const SKILLSITEMS = [
+  ["C, C++, Java", "Experience in large real world projects"],
+  ["React/Native, JS, R", "A lot of fun projects like this site. Worked on a JIT compiler for R called Rsh."],
+  ["Scripting", "Routinely use scripting languages like python, bash, JS, etc."],
+  ["Databases", "Am comfortable in mongo, SQL, etc."],
+  ["Teaching Assistant", "CS502 Compiler Design, C302 Paradigms of Programming"],
+]
+
+export const LOOKINGFORTEXT ="Internship opportunities as a Researcher"
+
+export const QUOTE = "Logic processed infinitely is emotion."
+
+export const RESEARCHINTERESTS = "Compilers, JITs, Programming Languages, Security"
+
+export const EDUCATION = [
+  ["2020-2023: M.S (by Research) CSE", "IIT Mandi School of Computing and Electrical Engineering"],
+  ["2020: GATE CSE", "Cleared GATE examination."],
+  ["2016-2020: B.Tech CSE", "MRIIRS, NCR-Faridabad"],
+  ["2014-2016: High School", "Sri Gayatri Junior College, Hyderabad"],
+  ["2004-2014: Primar School", "Bharatiya Vidya Bhavans Public School, Hyderabad"],
+]
+
+export const ABOUTME = "I absolutely love everything about computers and love to dive deeper into what makes them tick. I find myself comfortable in very high level abstractions like DSLs or React and also in low level things like code generation, assembly, C++."

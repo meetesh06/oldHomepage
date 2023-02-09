@@ -11,6 +11,7 @@ import 'katex/dist/katex.min.css'
 import Divider from '@mui/material/Divider';
 
 import {
+  useHistory,
   useParams
 } from "react-router-dom";
 
@@ -33,7 +34,7 @@ import {
 import {
   motion
 } from 'framer-motion';
-import BLOG from '../config';
+import { URI_POST_FILES } from '../config';
 import { nonCachedRequest } from './helper';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -47,8 +48,9 @@ import Crypto from "crypto-js";
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {
-    marginLeft: theme.spacing(3),
-    marginTop: theme.spacing(3),
+    position: 'fixed'
+    // marginLeft: theme.spacing(3),
+    // marginTop: theme.spacing(3),
   },
   paper: {
     marginLeft: theme.spacing(10),
@@ -141,7 +143,7 @@ function HomeContent(props) {
 
   React.useEffect(() => {
     const renderPostFromLink = (meta) => {
-      axios.get(nonCachedRequest(BLOG.URI_POST_FILES+'/'+meta.link, {}))
+      axios.get(nonCachedRequest(URI_POST_FILES+'/'+meta.link, {}))
         .then((response) => {
           let post = response.data
           
@@ -239,6 +241,9 @@ function HomeContent(props) {
     type: "backInOut",
   }
 
+  const history = useHistory();
+
+
   return loadingPost ? <LinearProgress variant="indeterminate" /> :
   <motion.div
     initial="out"
@@ -250,11 +255,13 @@ function HomeContent(props) {
 
     <div className={classes.actionBar}>
       <Tooltip title="Go Back" aria-label="go-home" arrow>
-        <Link to="/">
-          <IconButton color="primary" aria-label="go-home" size="large">
+        {/* <Link to="/"> */}
+          <IconButton onClick={() => {
+            history.goBack()
+          }} color="primary" aria-label="go-home" size="large">
             <ArrowBack />
           </IconButton>
-        </Link>
+        {/* </Link> */}
       </Tooltip>
     </div>  
 

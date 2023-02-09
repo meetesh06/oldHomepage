@@ -36,31 +36,19 @@ function SearchableActionBar(props) {
     dispatch(updateCurrentPost(posts[index]));
   }
 
-  
-  const handleSidebarToggle = () => {
-    dispatch(updateVisiblity(!toggle));
-  }
-
   return (
     <div className={classes.actionBar}>
-      <Hidden mdUp implementation="css">
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleSidebarToggle}
-          size="large">
-          <MenuIcon />
-        </IconButton>
-      </Hidden>
-      <Autocomplete
-        freeSolo
-        onChange={handleUpdate}          
-        options={posts.map((option, index) => index + ' > ' + option.title)}
-        renderInput={(params) => (
-          <TextField {...params} label="Search Posts" margin="normal" variant="outlined" />
-        )}
-      />
+      {
+        posts &&
+        <Autocomplete
+          freeSolo
+          onChange={handleUpdate}          
+          options={posts.map((option, index) => index + ' > ' + option.title)}
+          renderInput={(params) => (
+            <TextField {...params} label="Search Posts" margin="normal" variant="outlined" />
+          )}
+        />
+      }
     </div>
   );
 }

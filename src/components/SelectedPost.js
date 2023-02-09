@@ -54,31 +54,36 @@ const useStyles = makeStyles((theme) => ({
 function LatestPost(props) {
   const classes = useStyles();
   let post = useSelector(selectCurrentPost);
-  const postLatest = useSelector(getPostsJson).posts[0];
-  if (post === null) post = postLatest;
+  let postLatest = useSelector(getPostsJson);
+  if (postLatest) {
+    postLatest = postLatest.posts[0];
+  }
 
   return(
     <div className={classes.root}>
-      <div>
-        <Typography className={classes.heading} variant="h6" component="h2">
-          Read Next
-        </Typography>
-        <Card className={classes.postContainer}>
-          <CardActionArea component={Link} to={parsePostUrl(post.id, post.title)}>
-            <CardContent>
-              <Typography className={classes.cardPostTitle} gutterBottom variant="h5" component="h2">
-                {post.title}
-              </Typography>
-              <Typography className={classes.cardPostDesc} variant="body2" component="p">
-                {post.description} 
-              </Typography>
-              <Typography className={classes.date}>
-                {post.created}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </div>
+      {
+        post && 
+        <div>
+          <Typography className={classes.heading} variant="h6" component="h2">
+            Selected Post
+          </Typography>
+          <Card className={classes.postContainer}>
+            <CardActionArea component={Link} to={parsePostUrl(post.id, post.title)}>
+              <CardContent>
+                <Typography className={classes.cardPostTitle} gutterBottom variant="h5" component="h2">
+                  {post.title}
+                </Typography>
+                <Typography className={classes.cardPostDesc} variant="body2" component="p">
+                  {post.description} 
+                </Typography>
+                <Typography className={classes.date}>
+                  {post.created}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </div>
+      }
     </div>
   );
 }
