@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function MainContainer() {
+function MainContainer(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [alert, setAlert] = React.useState(null);
@@ -87,7 +87,7 @@ function MainContainer() {
   );
 }
 
-function App() {
+function App(props) {
   const [light, setLight] = React.useState(false);
 
 

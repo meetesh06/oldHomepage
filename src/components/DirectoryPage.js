@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 
 import axios from 'axios';
-import Skeleton from '@mui/lab/Skeleton';
+import { Skeleton } from '@mui/material';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Chip from '@mui/material/Chip';

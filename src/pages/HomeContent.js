@@ -13,14 +13,9 @@ import {
   AnimatePresence,
   motion
 } from 'framer-motion';
-import { Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import { Button, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
-import {
-  Switch,
-  Route,
-  useLocation,
-} from "react-router-dom";
 import { Home } from '@material-ui/icons';
 import RightSidebar from '../components/RightSidebar';
 import { useSelector } from 'react-redux';
@@ -52,18 +47,68 @@ import {
 } from '../config'
 import { Masonry } from '@mui/lab';
 
-
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  Link,
+  Outlet,
+  Route,
+  RouterProvider,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 
 const staticContentVariants = {
-  hidden: { opacity: 0, scale: 0.90 },
+  hidden: {opacity: 0, scale: 0.90 },
   show: {
     opacity: 1,
     scale: 1,
     transition: {
       duration: 0.3
     }
+  },
+  out: {
+    opacity: 0,
+    scale: 0.90,
+    transition: {
+      duration: 10
+    }
   }
 }
+
+function PostRenderer() {
+  const { posts } = useSelector(getPostsJson);  
+  
+  if (posts) {
+    return <div>
+      <PostPage />
+    </div>
+  } else {
+    return <LinearProgress color="secondary" />
+  }
+}
+
+function BlogRenderer() {
+  const { posts } = useSelector(getPostsJson);  
+  
+  if (posts) {
+    return <motion.div
+      initial="hidden"
+      animate="show"
+      exit="out"
+      variants={staticContentVariants}
+      container
+    >
+      <PostsContainer />
+      {/* <SearchableActionBar /> */}
+      {/* <SelectedPost />
+      <Outlet /> */}
+    </motion.div>
+  } else {
+    return <LinearProgress color="secondary" />
+  }
+}
+
 
 const heights = [150, 30, 90, 70, 90, 100, 150, 30, 50, 80];
 
@@ -76,7 +121,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-function StaticContent() {
+function StaticContent(props) {
   return (
     <Masonry 
       component={motion.div}
@@ -84,106 +129,77 @@ function StaticContent() {
       animate="show"
       exit="out"
       variants={staticContentVariants}
-      // defaultHeight={200}}
-
-
       columns={{ xs: 1, sm: 1, md: 3, lg: 3 }}
       spacing={0}
       >
-      {/* {heights.map((height, index) => (
-        <Item key={index} sx={{ height }}>
-          {index + 1}
-        </Item>
-      ))} */}
-      <TextCard title="News" 
+      <TextCard key={`home-${1}`} title="News" 
               textList={NEWSITEMS}/>
-      <TextCard title="Research Interests" text={RESEARCHINTERESTS} />
+      <TextCard key={`home-${2}`} title="Research Interests" text={RESEARCHINTERESTS} />
 
-      <TextCard title="Looking For" text={LOOKINGFORTEXT} />
-      <TextCard title="Something About Me" text={ABOUTME} />
+      <TextCard key={`home-${3}`} title="Looking For" text={LOOKINGFORTEXT} />
+      <TextCard key={`home-${4}`} title="Something About Me" text={ABOUTME} />
       <TextCard
+              key={`home-${5}`}
               title="Skills"
               text={SKILLSTEXT}
               textList={SKILLSITEMS}
               />
-      <TextCard text={QUOTE} />
+      <TextCard key={`home-${6}`} text={QUOTE} />
       <TextCard
+        key={`home-${7}`}
         title="Interests"
         text={INTERESTS}
       />
-      <TextCard title="Education" textList={EDUCATION}/>
+      <TextCard key={`home-${8}`} title="Education" textList={EDUCATION}/>
 
     </Masonry>
   )
 }
 
-function HomeContent() {
+function HomeContent(props) {
   const { posts } = useSelector(getPostsJson);
   const location = useLocation();
   const isMain = location.pathname === "/"
-
+  // 
+  // const history = useHistory();
+  // console.log("hist: ", history)
   return(
-    <AnimatePresence mode='wait'>
+    
       <div>
         <NavBar />
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6} md={4} lg={isMain ? 3 : 2}>
+            {
+              !isMain && 
+              <RightSidebar />
+            }
             <ImageCard
+              index="main-image"
               imageUri={IMAGEURI}
               title={USERNAME} 
-              text={isMain ? ABOUTUSER : undefined} />
-            <TextCard title="Get it touch?" 
-              text={GETINTOUCHTEXT}
-              links={CONTACTLINKS}
-            />
+              text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
+              links={isMain ? undefined : CONTACTLINKS}
+              small={!isMain}
+              />
+
+
+            {
+              isMain && 
+              <TextCard 
+                index="main-infocard"
+                title="Get it touch?" 
+                text={GETINTOUCHTEXT}
+                links={CONTACTLINKS}
+              />
+            }
+
+            
+
 
           </Grid>
 
           <Grid item xs={12} sm={6} md={8} lg={9}>
-
-              <Switch>
-              {/* <div> */}
-                <Route exact path="/">
-                  <StaticContent />
-                </Route>
-
-                <Route exact path="/blog">
-                  {
-                    posts && (
-                      <motion.div
-                        initial="hidden"
-                        animate="show"
-                        exit="out"
-                        variants={staticContentVariants}
-                        container
-                      >
-                        <SearchableActionBar />
-                        <SelectedPost />
-                        <PostsContainer />
-                      </motion.div>
-                    )
-                  }
-                  {
-                    !posts &&
-                    <LinearProgress color="secondary" />
-                  }
-                </Route>
-                <Route path="/post-:idRaw">
-                {
-                    posts && (
-                      <PostPage />
-                    )
-                  }
-                  {
-                    !posts &&
-                    <LinearProgress color="secondary" />
-                  }
-                  
-                </Route>
-              
-              </Switch>
-
-
+            <Outlet />            
           </Grid>
 
 
@@ -191,8 +207,30 @@ function HomeContent() {
       </Grid>
 
       </div>
-    </AnimatePresence>
+      
   );
 }
 
-export default HomeContent;
+
+function HomeWrapper() {
+  
+
+  return(
+    
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomeContent />}>
+            <Route
+              path=""
+              element={<StaticContent />}
+            />
+            <Route path="blog" element={<BlogRenderer />}>
+            </Route>
+            <Route path="blog/:idRaw" element={<PostRenderer />} />
+          </Route>
+        </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default HomeWrapper;

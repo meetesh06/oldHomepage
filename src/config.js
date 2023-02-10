@@ -6,17 +6,17 @@ export const IMAGEURI = "/blog-pic.jpg";
 export const USERNAME = "Meetesh Kalpesh Mehta";
 export const ABOUTUSER = "Hey there! I'm a research scholar @IIT Mandi working in the area of compilers.My latest work focuses on a JIT compiler for the R Programming Language where I tackle the problems of warmup times and deoptimization overheads. I also love to code in React, like this website. Apart from computers I also tinker a lot with Raspberry Pi's, Arduinos, etc in my free time.";
 
-export const GETINTOUCHTEXT = "Feel free to get in touch with me regarding anything :)";
+export const GETINTOUCHTEXT = "Feel free to get in touch with me regarding anything :) [meeteshmehta4@gmail.com]";
 export const CONTACTLINKS = [
-  ["meeteshmehta4@gmail.com","Email"],
-  ["","LinkedIn"],
+  ["mailto:meeteshmehta4@gmail.com","Email"],
+  ["https://www.linkedin.com/in/meetesh06/","LinkedIn"],
 ];
 
 export const NEWSITEMS = [
   ["3rd Feb 2023", "Presented Synopsis Seminar"],
-  ["17nd Nov 2022", "Presented Synopsis Seminar"],
+  ["29th Nov 2022", "Presented Open Seminar"],
   ["29th Oct 2022", "Submitted to OOPSLA 2023"],
-  ["15th Feb 2021", "Joined IIT Mandi"]
+  // ["15th Feb 2021", "Joined IIT Mandi"]
 ];
 
 export const INTERESTS = "I love to go out on long walks and hikes. You will find me listening to music or reading books/articles in my free time. I randomly start new personal projects like making a light controllers using arduino, setting up solar panels around the terrace and so on. If something piques my interest I will give it a shot."

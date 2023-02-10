@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {
-  BrowserRouter as Router,
-} from "react-router-dom";
-
 import { Provider } from 'react-redux';
-
+// import {
+//   createBrowserRouter,
+//   RouterProvider,
+// } from "react-router-dom";
 import store from './store';
+
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <div>Hello world!</div>,
+//   },
+// ]);
+
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router basename={process.env.PUBLIC_URL}>
+    {/* <BrowserRouter basename={process.env.PUBLIC_URL}> */}
       <App />
-    </Router>
+    {/* </BrowserRouter> */}
   </Provider>,
   document.getElementById('root')
 );

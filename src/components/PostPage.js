@@ -11,14 +11,14 @@ import 'katex/dist/katex.min.css'
 import Divider from '@mui/material/Divider';
 
 import {
-  useHistory,
+  useNavigate,
   useParams
 } from "react-router-dom";
 
 import axios from 'axios';
-import Skeleton from '@mui/lab/Skeleton';
+import { Skeleton } from '@mui/material';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { xonokai, coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Chip from '@mui/material/Chip';
 
 import Tooltip from '@mui/material/Tooltip';
@@ -32,6 +32,7 @@ import {
 } from "react-router-dom";
 
 import {
+  AnimatePresence,
   motion
 } from 'framer-motion';
 import { URI_POST_FILES } from '../config';
@@ -45,17 +46,17 @@ import { selectSecret } from '../features/secretState';
 
 
 import Crypto from "crypto-js";
+import RightSidebar from './RightSidebar';
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {
-    position: 'fixed'
-    // marginLeft: theme.spacing(3),
-    // marginTop: theme.spacing(3),
+    // position: 'fixed',
+    marginLeft: theme.spacing(2),
+    marginTop: theme.spacing(1),
   },
   paper: {
     marginLeft: theme.spacing(10),
     marginRight: theme.spacing(10),
-    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(6),
     minHeight: '50vh',
@@ -202,7 +203,7 @@ function HomeContent(props) {
         
         setFound(true);
     }
-  }, []);
+  }, [idRaw]);
 
   const renderSkeleton = (msg) => (
     <div>
@@ -222,28 +223,34 @@ function HomeContent(props) {
     math: ({value}) => <Tex block math={value} />,
     inlineMath: ({value}) => <Tex math={value} />,
     code: ({language, value}) => {
-      return <SyntaxHighlighter wrapLongLines wrapLines style={xonokai} language={language} children={value} />
+      return <SyntaxHighlighter wrapLongLines wrapLines style={coldarkDark} language={language} children={value} />
     },
     image: ImageRenderer
   }
 
   const pageVariants = {
     in: {
+      opacity: 1,
       y: 0
     },
     out: {
-      y: "100vh"
+      opacity: 0,
+      y: "10vh"
+    },
+    FadeIn: {
+      opacity: 1
+    },
+    FadeOut: {
+      opacity: 0
     }
   }
 
   const pageTransitions = {
-    duration: .5,
+    duration: .2,
     type: "backInOut",
   }
 
-  const history = useHistory();
-
-
+  const navigate = useNavigate();
   return loadingPost ? <LinearProgress variant="indeterminate" /> :
   <motion.div
     initial="out"
@@ -252,41 +259,49 @@ function HomeContent(props) {
     variants={pageVariants}
     transition={pageTransitions}
   >
-
     <div className={classes.actionBar}>
       <Tooltip title="Go Back" aria-label="go-home" arrow>
         {/* <Link to="/"> */}
           <IconButton onClick={() => {
-            history.goBack()
+            navigate(-1)
           }} color="primary" aria-label="go-home" size="large">
             <ArrowBack />
           </IconButton>
         {/* </Link> */}
       </Tooltip>
     </div>  
-
-    <Paper className={classes.paper} elevation={3}>
-      {
-        !found ? (renderSkeleton("Post not found, please drop an email so I can have a look at this 👻 Thank you")) : 
-          loadingPost ? <LoadingHeader postMetaData={postMetaData} /> :
-        
-          <div>
-            <Typography className={classes.heading} variant="h2" component="h1">
-              {postMetaData.title}
-            </Typography>
-            <span className={classes.dateHolder}>
-              <Chip className={classes.categoryName} label={postMetaData.category} />
-              <Typography className={classes.dateStyle} variant="body2" component="p">
-                created on {postMetaData.created}
+    <AnimatePresence mode='wait'>
+      <Paper
+        component={motion.div}
+        initial="FadeOut"
+        animate="FadeIn"
+        exit="FadeOut"
+        variants={pageVariants}
+        transition={pageTransitions}
+        className={classes.paper} elevation={3}>
+        {
+          !found ? (renderSkeleton("Post not found, please drop an email so I can have a look at this 👻 Thank you")) : 
+            loadingPost ? <LoadingHeader postMetaData={postMetaData} /> :
+          
+            <div>
+              <Typography className={classes.heading} variant="h2" component="h1">
+                {postMetaData.title}
               </Typography>
-            </span>
-            <Divider className={classes.divider} variant="middle" />
-            <ReactMarkdown className={classes.markdownHolder} plugins={[math]} renderers={renderers}>
-              {postData}
-            </ReactMarkdown>
-          </div>
-      }
-    </Paper>
+              <span className={classes.dateHolder}>
+                <Chip className={classes.categoryName} label={postMetaData.category} />
+                <Typography className={classes.dateStyle} variant="body2" component="p">
+                  created on {postMetaData.created}
+                </Typography>
+              </span>
+              <Divider className={classes.divider} variant="middle" />
+              <ReactMarkdown className={classes.markdownHolder} plugins={[math]} renderers={renderers}>
+                {postData}
+              </ReactMarkdown>
+            </div>
+        }
+      </Paper>
+
+    </AnimatePresence>
   </motion.div>;
 }
 

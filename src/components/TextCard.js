@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TextCard(props) {
   const classes = useStyles();
-  const { title, text, links, textList } = props
+  const { title, text, links, textList, index } = props
   const [hovered, setHovered] = React.useState(false);
 
   const listContainer = {
@@ -44,6 +44,7 @@ export default function TextCard(props) {
     <div className={classes.card} >
 
       <Card
+        key={index}
         layout 
         component={motion.div}
         whileHover="hover"
@@ -79,8 +80,8 @@ export default function TextCard(props) {
             color="text.secondary">
             {
               textList && (
-                textList.map((data) => 
-                  <motion.li style={{listStyle: 'none'}} variants={listItem}>
+                textList.map((data,index) => 
+                  <motion.li key={`${data[0]}-${index}`} style={{listStyle: 'none'}} variants={listItem}>
                     <div className={classes.newsItem}>
                       {data[0]}
                     </div>
@@ -98,8 +99,8 @@ export default function TextCard(props) {
           links && links.length > 0 && (
             <CardActions>
               {
-                links.map((link) => {
-                  return <Button size="small">{link[1]}</Button>
+                links.map((link, index) => {
+                  return <Button key={`${link[1]}-${index}`} href={link[0]} target="_blank" size="small">{link[1]}</Button>
                 })
               }
             </CardActions>

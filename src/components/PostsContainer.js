@@ -5,24 +5,22 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Skeleton from '@mui/lab/Skeleton';
+import { Divider, Hidden, Skeleton, Typography } from '@mui/material';
 import {JSONPath} from 'jsonpath-plus';
 import PostCard from './PostCard';
 
 import { useSelector } from 'react-redux';
 import { selectCurrentPost } from '../features/currentPostSlice';
 import { getPostsJson } from '../features/allPostsSlice';
+import { Masonry } from '@mui/lab';
+import { motion } from 'framer-motion';
+import TextCard from './TextCard';
+import { blueGrey } from '@mui/material/colors';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2),
-    overflow: "hidden",
-    [theme.breakpoints.down('lg')]: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      marginTop: theme.spacing(2),
-    },
+    
   },
   tabContainer: {
     [theme.breakpoints.down('lg')]: {
@@ -71,43 +69,66 @@ function PostsContainer(props) {
   };
 
   return (
-    <div className={classes.root}>
-      <div>
-          <div className={classes.tabContainer}>
-            <Tabs
-              variant="scrollable"
-              scrollButtons
-              value={value}
-              onChange={handleChange}
-              aria-label="lineage selector"
-              allowScrollButtonsMobile>
-              {
-                blogData.categories.map((label, index) => (
-                  <Tab key={index+"tab-section"} label={label} {...a11yProps(index)} />
-                ))
-              }
-            </Tabs>
-          </div>
+    <div >
+    <Hidden mdUp>
+      {/* Posts */}
+      <Divider sx={(theme) => { return { marginBottom: theme.spacing(1), marginTop: theme.spacing(1) } }}/>
+      {/* <Typography sx={(theme) => { return { marginTop: theme.spacing(2) } }} gutterBottom variant="h" >
+        Posts
+      </Typography> */}
+    </Hidden>
+    <Masonry 
+      // sx={(theme) => { return { backgroundColor: blueGrey[700] } }}
+      columns={{ xs: 1, sm: 2, md: 3, lg: 3 }}
+      spacing={2}
+      >
         {
-          blogData.categories.map((label, index) => {
-            return (
-              <TabPanel value={value} index={index} key={index+"tab"}>
-                <Grid container spacing={0}>
-                  {
-                    JSONPath({path: `$.posts[?(@.category === '${label}')]`, json: blogData}).map((post) => (
-                      <Grid item xs={12} sm={4} key={post.id}>
-                        <PostCard post={post}/>
-                      </Grid>
-                    ))
-                  }
-                </Grid>
-              </TabPanel>
-            );
-          })
+          blogData.posts.map((post, index) => (
+            <PostCard key={`post-${index}`} post={post}/>
+          ))
         }
+      </Masonry>
       </div>
-    </div>
-  );
+      );
+    // <div className={classes.root}>
+    //   <div>
+    //       <div className={classes.tabContainer}>
+    //         <Tabs
+    //           variant="scrollable"
+    //           scrollButtons
+    //           value={value}
+    //           onChange={handleChange}
+    //           aria-label="lineage selector"
+    //           allowScrollButtonsMobile>
+    //           {
+    //             blogData.categories.map((label, index) => (
+    //               <Tab key={index+"tab-section"} label={label} {...a11yProps(index)} />
+    //             ))
+    //           }
+    //         </Tabs>
+    //       </div>
+    //     {
+    //       blogData.categories.map((label, index) => {
+    //         return (
+    //           <TabPanel value={value} index={index} key={index+"tab"}>
+    //             <Grid container spacing={0}>
+    //               {
+    //                 JSONPath({path: `$.posts[?(@.category === '${label}')]`, json: blogData}).map((post) => (
+    //                   <Grid item xs={12} sm={4} key={post.id}>
+    //                     <PostCard post={post}/>
+    //                   </Grid>
+    //                 ))
+    //               }
+    //             </Grid>
+    //           </TabPanel>
+    //         );
+    //       })
+    //     }
+
+
+    //   </div>
+    // </div>
+  // );
 }
 
 export default PostsContainer;

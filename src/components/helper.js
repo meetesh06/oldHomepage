@@ -1,5 +1,5 @@
 const parsePostUrl = (id, title) => {
-  return '/post-'+id+'-'+title;
+  return '/blog/'+id+'-'+title;
 }
 
 const nonCachedRequest = (url) => {

@@ -27,13 +27,14 @@ export default function ImageCard(props) {
   const classes = useStyles();
   const [hovered, setHovered] = React.useState(false);
 
-  const { title, text, imageUri } = props
+  const { title, text, imageUri, links, index, small } = props
 
   return (
     <div
-    className={classes.card}
+    className={small ? undefined : classes.card}
       >
       <Card
+        key={index}
         color='primary'
         layout 
         component={motion.div}
@@ -64,6 +65,17 @@ export default function ImageCard(props) {
               {text}
             </Typography>
           </CardContent>
+          {
+            links && links.length > 0 && (
+              <CardActions>
+                {
+                  links.map((link, idx) => {
+                    return <Button key={`${link[1]}-${idx}`} size="small">{link[1]}</Button>
+                  })
+                }
+              </CardActions>
+            )
+          }
       </Card>
     </div>
   );

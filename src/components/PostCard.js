@@ -1,59 +1,84 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
-
+import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
-import {
-  Link
-} from "react-router-dom";
-
+import { makeStyles } from '@mui/styles';
+import { Button, CardActionArea, CardActions } from '@mui/material';
+import { useTheme } from '@emotion/react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { parsePostUrl } from './helper';
 
-
 const useStyles = makeStyles((theme) => ({
-  date: {
-    fontWeight: theme.typography.fontWeightBold,
-    fontSize: theme.typography.pxToRem(12),
-    color: theme.textDate,
-    marginTop: theme.spacing(2),
+  card: {
+    // width: 325,
+    // padding: theme.spacing(1),
+    // paddingTop: 0,
+    // paddingBottom: theme.spacing(2)
   },
-  postContainer: {
-    margin: theme.spacing(1),
-  },
-  cardPostTitle: {
-    fontWeight: theme.typography.fontWeightBold,
-    fontSize: theme.typography.pxToRem(16),
-    overflow: "hidden",
-  },
-  cardPostDesc: {
-    fontWeight: theme.typography.fontWeightRegular,
-    fontSize: theme.typography.pxToRem(16)
+  newsItem: { 
+    marginRight: theme.spacing(1),
+    fontWeight: 'bold', 
+    color: theme.palette.type === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark
+  }
+}))
+
+export default function PostCard(props) {
+  const classes = useStyles();
+  const { post } = props
+  const [hovered, setHovered] = React.useState(false);
+
+  const listContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+        // staggerDirection: -1
+      }
+    }
+  }
+
+  const listItem = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 }
   }
   
-}));
+  return (
+    <div className={classes.card} >
 
-function PostCard(props) {
-  const classes = useStyles();
-  const post = props.post;
-  return(
-    <Card className={classes.postContainer}>
-      <CardActionArea className={classes.clickableArea} component={Link} to={parsePostUrl(post.id, post.title)}>
-        <CardContent>
-          <Typography className={classes.cardPostTitle} gutterBottom variant="h5" component="h2">
-            {post.title}
-          </Typography>
-          <Typography className={classes.cardPostDesc} variant="body2" color="textSecondary" component="p">
-            {post.description}
-          </Typography>
-          <Typography className={classes.date}>
-            {post.created}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+      <Card
+        layout 
+        component={motion.div}
+        whileHover="hover"
+        variants={{
+          hover: {
+            scale: 1.02,
+          }
+        }}
+        // style={{ paddingBottom: 50 }}
+        onHoverStart={() => setHovered(true)}
+        onHoverEnd={() => setHovered(false)}
+        raised={hovered}
+        >
+          <CardActionArea
+            component={Link}
+            to={parsePostUrl(post.id, post.title)}
+          >
+            <CardContent>
+              <Typography variant="body2" color="text.secondary">
+                  {post.created}
+              </Typography>
+              <Typography gutterBottom variant="h5" component="div">
+                {post.title}
+              </Typography>
+              <Typography variant="body" color="text.secondary">
+                  {post.description}
+              </Typography>
+            </CardContent>
+
+          </CardActionArea>
+      </Card>
+    </div>
   );
 }
-
-export default PostCard;

@@ -57,7 +57,7 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
-          <Box sx={{ height: 100, display: { xs: 'inline-block', md: 'none' } }}>
+          <Box sx={{ position: 'relative', top: -10, display: { xs: 'inline-block', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="navbar button"
@@ -101,6 +101,7 @@ function NavBar() {
           </Box>
 
           <motion.div
+            key="header-logo"
             style={{
                 flexGrow: 1
             }}
