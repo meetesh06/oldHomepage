@@ -154,6 +154,30 @@ function HomeContent(props) {
           <Grid item xs={12} sm={6} md={4} lg={isMain ? 3 : 2}>
 
             {
+              !isMain && 
+              <RightSidebar />
+            }
+            <ImageCard
+              index="main-image"
+              imageUri={IMAGEURI}
+              title={USERNAME} 
+              text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
+              links={isMain ? undefined : CONTACTLINKS}
+              small={!isMain}
+              />
+
+
+            {
+              isMain && 
+              <TextCard 
+                index="main-infocard"
+                title="Get it touch?" 
+                text={GETINTOUCHTEXT}
+                links={CONTACTLINKS}
+              />
+            }
+
+            {/* {
               (isBlog || isPost) && 
               <Hidden mdDown>
                 {
@@ -209,7 +233,7 @@ function HomeContent(props) {
                   />
                 }
               </div>
-            }
+            } */}
 
           </Grid>
 

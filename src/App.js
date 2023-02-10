@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { makeStyles } from '@mui/styles';
 
@@ -9,7 +9,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import { URI_POSTS } from './config';
 import { createTheme } from '@mui/material/styles';
 
-import axios from 'axios';
 
 import { updatePostsJson } from './features/allPostsSlice';
 import { useDispatch } from 'react-redux';
@@ -22,7 +21,8 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { CssBaseline, } from '@material-ui/core';
 import { Alert, Container, ScopedCssBaseline } from '@mui/material';
-import { grey, yellow } from '@mui/material/colors';
+import { blueGrey } from '@mui/material/colors';
+import useFetch from './hooks/useFetch';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -38,45 +38,57 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const uniqueReq = nonCachedRequest(URI_POSTS)
 function MainContainer(props) {
-  const classes = useStyles();
+  // Hooks
+  const classes = useStyles();  
   const dispatch = useDispatch();
-  const [alert, setAlert] = React.useState(null);
+  const { loading, response, error } = useFetch(uniqueReq)
 
-
-  React.useEffect(() => {
-    axios.get(nonCachedRequest(URI_POSTS), {})
-      .then(function (response) {
-        if(response.data.posts.length > 0) {
-          setAlert(["success", "Blog posts loaded!"]);
-          setTimeout(() => setAlert(null), 5000)
-          response.data.posts.sort(sortPosts);
-          dispatch(updatePostsJson(response.data)); // put global blog data in redux store
-        } else {
-          setAlert(["warning", "Failed to load posts!"]);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, []);
-
+  // States
+  const [alert, setAlert] = useState(null);
+  
+  // Effects
+  useEffect(() => {
+    const getAlertData = () => {
+      if (loading) {
+        return ["info", "Loading posts"]
+      }
+      if (error) {
+        return ["error", "Failed to load posts"]
+      }
+      if (response) {
+        dispatch(updatePostsJson(response.data));
+        return ["success", "Posts loaded"]
+      }
+    }
+    setAlert(getAlertData())
+    const timer = setTimeout(() => {
+      setAlert(null)
+    }, 2000);
+    
+    return () => {
+      clearTimeout(timer)
+    };
+  }, [loading])
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="xl">
         <main className={classes.content}>
-            <div className={classes.mainContent}>
-                <HomeContent />
-            </div>
+          <div className={classes.mainContent}>
+              <HomeContent />
+          </div>
         </main>
         {
           alert && 
           <Alert 
             sx={{
-              position: 'absolute',
-              bottom: 0
+              position: 'fixed',
+              bottom: 0,
+              right: 0,
+              left: 0
             }}
             severity={alert[0]}>
               {alert[1]}
@@ -95,8 +107,8 @@ function App(props) {
     palette: {
       mode: 'light',
       background: {
-        paper: yellow[200],
-        default: grey[100]
+        paper: blueGrey[50],
+        default: blueGrey[100]
       }
     }
   });
