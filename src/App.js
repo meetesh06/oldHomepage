@@ -20,18 +20,12 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { CssBaseline, } from '@material-ui/core';
-import { Alert, Container, ScopedCssBaseline } from '@mui/material';
+import { Alert, Container, responsiveFontSizes, ScopedCssBaseline } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import useFetch from './hooks/useFetch';
 
 const useStyles = makeStyles((theme) => ({
-  content: {
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "row",
-  },
   mainContent: {
-    flex: 1,
     height: "100vh",
     overflow: "scroll",
   },
@@ -75,11 +69,8 @@ function MainContainer(props) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="xl">
-        <main className={classes.content}>
-          <div className={classes.mainContent}>
-              <HomeContent />
-          </div>
+        <main className={classes.mainContent}>
+          <HomeContent />
         </main>
         {
           alert && 
@@ -94,7 +85,6 @@ function MainContainer(props) {
               {alert[1]}
           </Alert>
         }
-      </Container>
     </React.Fragment>
   );
 }
@@ -118,9 +108,13 @@ function App(props) {
       mode: 'dark'
     } 
   });
+
+  let theme = light ? themeLight : themeDark
+
+  theme = responsiveFontSizes(theme);
   
   return (
-    <ThemeProvider theme={light ? themeLight : themeDark}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <ScopedCssBaseline enableColorScheme>
         <MainContainer/>

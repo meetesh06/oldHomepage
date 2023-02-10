@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 
 import Tabs from '@mui/material/Tabs';
@@ -59,9 +59,21 @@ function a11yProps(index) {
 
 function PostsContainer(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+
+  let post = useSelector(selectCurrentPost);
 
   const blogData = useSelector(getPostsJson);
+
+  
+  useEffect(() => {
+    if (post) {
+      const element = document.getElementById(`post-${post.id}`);
+      element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+    }
+  });
+
+  // console.log("post:", post)
 
 
   const handleChange = (event, newValue) => {

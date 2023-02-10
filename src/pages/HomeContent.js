@@ -41,6 +41,7 @@ import {
   useLocation,
   HashRouter
 } from "react-router-dom";
+import { Container } from '@mui/system';
 
 const staticContentVariants = {
   hidden: {opacity: 0, scale: 0.90 },
@@ -138,114 +139,49 @@ function StaticContent(props) {
 }
 
 function HomeContent(props) {
-  const { posts } = useSelector(getPostsJson);
   const location = useLocation();
   const isMain = location.pathname === "/"
   const isBlog = location.pathname === "/blog"
-  const isPost = !isMain && !isBlog
-  // 
-  // const history = useHistory();
-  // console.log("hist: ", history)
   return(
     
-      <div>
+      <React.Fragment>
         <NavBar />
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={6} md={4} lg={isMain ? 3 : 2}>
+        <Container maxWidth="xl">
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6} md={4} lg={isMain ? 3 : 2}>
 
-            {
-              !isMain && 
-              <RightSidebar />
-            }
-            <ImageCard
-              index="main-image"
-              imageUri={IMAGEURI}
-              title={USERNAME} 
-              text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
-              links={isMain ? undefined : CONTACTLINKS}
-              small={!isMain}
-              />
-
-
-            {
-              isMain && 
-              <TextCard 
-                index="main-infocard"
-                title="Get it touch?" 
-                text={GETINTOUCHTEXT}
-                links={CONTACTLINKS}
-              />
-            }
-
-            {/* {
-              (isBlog || isPost) && 
-              <Hidden mdDown>
-                {
-                  !isMain && 
-                  <RightSidebar />
-                }
-                <ImageCard
-                  index="main-image"
-                  imageUri={IMAGEURI}
-                  title={USERNAME} 
-                  text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
-                  links={isMain ? undefined : CONTACTLINKS}
-                  small={!isMain}
-                  />
+              {
+                !isMain && 
+                <RightSidebar />
+              }
+              <ImageCard
+                index="main-image"
+                imageUri={IMAGEURI}
+                title={USERNAME} 
+                text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
+                links={isMain ? undefined : CONTACTLINKS}
+                small={!isMain}
+                />
 
 
-                {
-                  isMain && 
-                  <TextCard 
-                    index="main-infocard"
-                    title="Get it touch?" 
-                    text={GETINTOUCHTEXT}
-                    links={CONTACTLINKS}
-                  />
-                }
+              {
+                isMain && 
+                <TextCard 
+                  index="main-infocard"
+                  title="Get it touch?" 
+                  text={GETINTOUCHTEXT}
+                  links={CONTACTLINKS}
+                />
+              }
 
-              </Hidden>
-            }
-
-            {
-              isMain && <div>
-                {
-                  !isMain && 
-                  <RightSidebar />
-                }
-                <ImageCard
-                  index="main-image"
-                  imageUri={IMAGEURI}
-                  title={USERNAME} 
-                  text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
-                  links={isMain ? undefined : CONTACTLINKS}
-                  small={!isMain}
-                  />
-
-
-                {
-                  isMain && 
-                  <TextCard 
-                    index="main-infocard"
-                    title="Get it touch?" 
-                    text={GETINTOUCHTEXT}
-                    links={CONTACTLINKS}
-                  />
-                }
-              </div>
-            } */}
-
+            </Grid>
+            <Grid item xs={12} sm={6} md={8} lg={9}>
+              <Outlet />            
+            </Grid>
           </Grid>
+        </Container>
 
-          <Grid item xs={12} sm={6} md={8} lg={9}>
-            <Outlet />            
-          </Grid>
-
-
-
-      </Grid>
-
-      </div>
+      </React.Fragment>
       
   );
 }

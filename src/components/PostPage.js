@@ -25,7 +25,6 @@ import Tooltip from '@mui/material/Tooltip';
 
 import LinearProgress from '@mui/material/LinearProgress';
 import IconButton from '@mui/material/IconButton';
-import ArrowBack from '@mui/icons-material/ArrowBack';
 
 import {
   Link
@@ -47,12 +46,15 @@ import { selectSecret } from '../features/secretState';
 
 import Crypto from "crypto-js";
 import RightSidebar from './RightSidebar';
+import { Close, Undo } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {
-    // position: 'fixed',
+    // position: 'static',
+    // left: 0,
+    // right: 0
     marginLeft: theme.spacing(2),
-    marginTop: theme.spacing(1),
+    // marginTop: theme.spacing(1),
   },
   paper: {
     marginLeft: theme.spacing(10),
@@ -259,18 +261,19 @@ function HomeContent(props) {
     variants={pageVariants}
     transition={pageTransitions}
   >
-    <div className={classes.actionBar}>
-      <Tooltip title="Go Back" aria-label="go-home" arrow>
-        {/* <Link to="/"> */}
-          <IconButton onClick={() => {
-            navigate(-1)
-          }} color="primary" aria-label="go-home" size="large">
-            <ArrowBack />
-          </IconButton>
-        {/* </Link> */}
-      </Tooltip>
-    </div>  
+    
     <AnimatePresence mode='wait'>
+      <div className={classes.actionBar}>
+        <Tooltip title="Close" aria-label="close" arrow>
+          {/* <Link to="/"> */}
+            <IconButton onClick={() => {
+              navigate('/blog')
+            }} color="primary" aria-label="close" size="large">
+              <Close />
+            </IconButton>
+          {/* </Link> */}
+        </Tooltip>
+      </div>
       <Paper
         component={motion.div}
         initial="FadeOut"
@@ -284,7 +287,10 @@ function HomeContent(props) {
             loadingPost ? <LoadingHeader postMetaData={postMetaData} /> :
           
             <div>
-              <Typography className={classes.heading} variant="h2" component="h1">
+              <Typography
+                className={classes.heading}
+                variant="h2"
+                component="h1">
                 {postMetaData.title}
               </Typography>
               <span className={classes.dateHolder}>
@@ -300,6 +306,8 @@ function HomeContent(props) {
             </div>
         }
       </Paper>
+
+      
 
     </AnimatePresence>
   </motion.div>;

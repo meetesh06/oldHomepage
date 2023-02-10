@@ -63,6 +63,7 @@ export default function PostCard(props) {
         >
           <CardActionArea
             component={Link}
+            id={`post-${post.id}`}
             to={parsePostUrl(post.id, post.title)}
           >
             <CardContent>

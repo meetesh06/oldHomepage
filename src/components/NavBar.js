@@ -124,7 +124,7 @@ function NavBar() {
                 key={`nav-${page[1]}`}
                 component={Link}
                 to={page[1]}
-                sx={(theme) => { return {my: 2, fontWeight: currPath ? "bold" : "normal", color: currPath ? 'text.primary' : 'text.secondary', display: 'block'} }}
+                sx={(theme) => { return {my: 2, fontWeight: currPath ? "bold" : "normal", color: currPath ? 'text.primary' : 'text.secondary'} }}
               >
                 {page[0]}
               </Button>

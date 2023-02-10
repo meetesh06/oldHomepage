@@ -49,13 +49,14 @@ const BLOG = {
 
 
 const useStyles = makeStyles((theme) => ({
-  // rightAside: {
-  //   borderStyle: 'solid',
-  //   borderWidth: 0.2,
-  //   borderRadius: theme.shape.borderRadius
-  //   // paddingLeft: theme.spacing(1),
-  //   // paddingRight: theme.spacing(1)
-  // },
+  rightAside: {
+    marginBottom: theme.spacing(1),
+    // borderStyle: 'solid',
+    // borderWidth: 0.2,
+    // borderRadius: theme.shape.borderRadius
+    // paddingLeft: theme.spacing(1),
+    // paddingRight: theme.spacing(1)
+  },
   // lineageHolder: {
   //   marginTop: theme.spacing(2)
   // },
