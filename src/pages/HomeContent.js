@@ -1,34 +1,20 @@
 
 import React from 'react';
 
-import SelectedPost from '../components/SelectedPost';
 import PostsContainer from '../components/PostsContainer';
-import SearchableActionBar from '../components/SearchableActionBar';
 import ImageCard from '../components/ImageCard'
 import TextCard from '../components/TextCard'
 import PostPage from '../components/PostPage'
 import NavBar from '../components/NavBar'
 
-import {
-  AnimatePresence,
-  motion
-} from 'framer-motion';
-import { Button, Grid, LinearProgress, Paper, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { motion } from 'framer-motion';
+import { Grid, Hidden, LinearProgress, Paper } from '@mui/material';
 
-import { Home } from '@material-ui/icons';
 import RightSidebar from '../components/RightSidebar';
 import { useSelector } from 'react-redux';
 import { getPostsJson } from '../features/allPostsSlice';
 
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
+import { styled } from '@mui/material/styles';
 import {
   IMAGEURI,
   USERNAME,
@@ -49,13 +35,11 @@ import { Masonry } from '@mui/lab';
 
 import {
   BrowserRouter,
-  createBrowserRouter,
-  Link,
   Outlet,
   Route,
-  RouterProvider,
   Routes,
   useLocation,
+  HashRouter
 } from "react-router-dom";
 
 const staticContentVariants = {
@@ -100,9 +84,6 @@ function BlogRenderer() {
       container
     >
       <PostsContainer />
-      {/* <SearchableActionBar /> */}
-      {/* <SelectedPost />
-      <Outlet /> */}
     </motion.div>
   } else {
     return <LinearProgress color="secondary" />
@@ -160,6 +141,8 @@ function HomeContent(props) {
   const { posts } = useSelector(getPostsJson);
   const location = useLocation();
   const isMain = location.pathname === "/"
+  const isBlog = location.pathname === "/blog"
+  const isPost = !isMain && !isBlog
   // 
   // const history = useHistory();
   // console.log("hist: ", history)
@@ -169,32 +152,64 @@ function HomeContent(props) {
         <NavBar />
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6} md={4} lg={isMain ? 3 : 2}>
-            {
-              !isMain && 
-              <RightSidebar />
-            }
-            <ImageCard
-              index="main-image"
-              imageUri={IMAGEURI}
-              title={USERNAME} 
-              text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
-              links={isMain ? undefined : CONTACTLINKS}
-              small={!isMain}
-              />
-
 
             {
-              isMain && 
-              <TextCard 
-                index="main-infocard"
-                title="Get it touch?" 
-                text={GETINTOUCHTEXT}
-                links={CONTACTLINKS}
-              />
+              (isBlog || isPost) && 
+              <Hidden mdDown>
+                {
+                  !isMain && 
+                  <RightSidebar />
+                }
+                <ImageCard
+                  index="main-image"
+                  imageUri={IMAGEURI}
+                  title={USERNAME} 
+                  text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
+                  links={isMain ? undefined : CONTACTLINKS}
+                  small={!isMain}
+                  />
+
+
+                {
+                  isMain && 
+                  <TextCard 
+                    index="main-infocard"
+                    title="Get it touch?" 
+                    text={GETINTOUCHTEXT}
+                    links={CONTACTLINKS}
+                  />
+                }
+
+              </Hidden>
             }
 
-            
+            {
+              isMain && <div>
+                {
+                  !isMain && 
+                  <RightSidebar />
+                }
+                <ImageCard
+                  index="main-image"
+                  imageUri={IMAGEURI}
+                  title={USERNAME} 
+                  text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
+                  links={isMain ? undefined : CONTACTLINKS}
+                  small={!isMain}
+                  />
 
+
+                {
+                  isMain && 
+                  <TextCard 
+                    index="main-infocard"
+                    title="Get it touch?" 
+                    text={GETINTOUCHTEXT}
+                    links={CONTACTLINKS}
+                  />
+                }
+              </div>
+            }
 
           </Grid>
 
@@ -217,7 +232,7 @@ function HomeWrapper() {
 
   return(
     
-    <BrowserRouter>
+    <HashRouter>
         <Routes>
           <Route path="/" element={<HomeContent />}>
             <Route
@@ -229,7 +244,7 @@ function HomeWrapper() {
             <Route path="blog/:idRaw" element={<PostRenderer />} />
           </Route>
         </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
