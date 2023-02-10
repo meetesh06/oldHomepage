@@ -57,7 +57,7 @@ function NavBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
-          <Box sx={{ position: 'relative', top: -10, display: { xs: 'inline-block', md: 'none' } }}>
+          <Box sx={{ position: 'relative', top: -5, display: { xs: 'inline-block', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="navbar button"
