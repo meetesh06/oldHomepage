@@ -15,7 +15,7 @@ import {
 } from 'framer-motion';
 
 import AnimatedText from '../components/AnimatedText'
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   SITENAME

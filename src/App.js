@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 
 import { nonCachedRequest, sortPosts } from './components/helper';
-import HomeContent from './pages/HomeContent';
+import Layout from './pages/Layout';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { URI_POSTS } from './config';
@@ -15,17 +15,13 @@ import { useDispatch } from 'react-redux';
 
 import './App.css';
 
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
 import { CssBaseline, } from '@material-ui/core';
 import { Alert, Container, responsiveFontSizes, ScopedCssBaseline } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import useFetch from './hooks/useFetch';
 
 const useStyles = makeStyles((theme) => ({
-  mainContent: {
+  root: {
     height: "100vh",
     overflow: "scroll",
   },
@@ -69,8 +65,8 @@ function MainContainer(props) {
   return (
     <React.Fragment>
       <CssBaseline />
-        <main className={classes.mainContent}>
-          <HomeContent />
+        <main className={classes.root}>
+          <Layout />
         </main>
         {
           alert && 

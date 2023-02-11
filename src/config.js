@@ -2,7 +2,7 @@ export const URI_POSTS = "/posts/posts.json"
 export const URI_POST_FILES = "/posts/"
 
 export const SITENAME = "Hello World";
-export const IMAGEURI = "/blog-pic.jpg";
+export const IMAGEURI = "/blog-pic.webp";
 export const USERNAME = "Meetesh Kalpesh Mehta";
 export const ABOUTUSER = "Hey there! I'm a research scholar @IIT Mandi working in the area of compilers.My latest work focuses on a JIT compiler for the R Programming Language where I tackle the problems of warmup times and deoptimization overheads. I also love to code in React, like this website. Apart from computers I also tinker a lot with Raspberry Pi's, Arduinos, etc in my free time.";
 
@@ -42,7 +42,7 @@ export const EDUCATION = [
   ["2020: GATE CSE", "Cleared GATE examination."],
   ["2016-2020: B.Tech CSE", "MRIIRS, NCR-Faridabad"],
   ["2014-2016: High School", "Sri Gayatri Junior College, Hyderabad"],
-  ["2004-2014: Primar School", "Bharatiya Vidya Bhavans Public School, Hyderabad"],
+  ["2004-2014: Primary School", "Bharatiya Vidya Bhavans Public School, Hyderabad"],
 ]
 
 export const ABOUTME = "I absolutely love everything about computers and love to dive deeper into what makes them tick. I find myself comfortable in very high level abstractions like DSLs or React and also in low level things like code generation, assembly, C++."
