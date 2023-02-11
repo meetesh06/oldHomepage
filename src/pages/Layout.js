@@ -84,13 +84,12 @@ function Layout(props) {
 function RoutingWrapper() {
   return(
     <HashRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LinearProgress color="success"/>}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route
               path=""
               element={<Home />}
-              // element={<Home />}
             />
             <Route path="blog" element={<Blog />}>
             </Route>
