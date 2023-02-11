@@ -147,6 +147,7 @@ function HomeContent(props) {
   }, []);
 
   useEffect(() => {
+    if (!posts) return;
     const renderPostFromLink = (meta) => {
       axios.get(nonCachedRequest(URI_POST_FILES+'/'+meta.link, {}))
         .then((response) => {
@@ -197,7 +198,7 @@ function HomeContent(props) {
       renderPostFromLink(meta);
       setFound(true);
     }
-  }, [idRaw]);
+  }, [idRaw, posts]);
 
   if (!posts) {
     return <LinearProgress color="secondary" />

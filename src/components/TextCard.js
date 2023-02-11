@@ -40,6 +40,7 @@ export default function TextCard(props) {
     show: {
       opacity: 1,
       transition: {
+        delay: 0.2,
         staggerChildren: 0.2
       }
     }

@@ -47,7 +47,7 @@ function NavBar() {
   const container = {
     visible: {
       transition: {
-        staggerChildren: 0.04
+        staggerChildren: 0.3
       }
     }
   }

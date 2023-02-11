@@ -14,14 +14,14 @@ function Home(props) {
       opacity: 1,
       scale: 1,
       transition: {
-        duration: 0.3
+        duration: 0.6
       }
     },
     out: {
       opacity: 0,
       scale: 0.9,
       transition: {
-        duration: 0.3
+        duration: 1
       }
     }
   }
@@ -34,14 +34,13 @@ function Home(props) {
     })
   }
   return (
-    <motion.div
-      initial="out"
-      animate="show"
-      exit="out"
-      variants={staticContentVariants}
-      onAnimationComplete={doPreload}
-    >
       <Masonry 
+        component={motion.div}
+        initial="out"
+        animate="show"
+        // exit="out"
+        variants={staticContentVariants}
+        onAnimationComplete={doPreload}
         columns={{ xs: 1, sm: 1, md: 3, lg: 3 }}
         spacing={0}
         >
@@ -66,7 +65,6 @@ function Home(props) {
         <TextCard key={`home-${8}`} title="Education" textList={EDUCATION}/>
 
       </Masonry>
-    </motion.div>
   )
 }
 

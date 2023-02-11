@@ -89,7 +89,7 @@ function Layout(props) {
           </Grid>
           <Grid item xs={12} sm={isMain ? 6 : 8} md={8} lg={9}>
             <Suspense fallback={<div></div>}>
-              <AnimatePresence exitBeforeEnter>
+              {/* <AnimatePresence exitBeforeEnter> */}
                 <Routes location={location} key={location.pathname}>
                   <Route
                     path="/"
@@ -99,7 +99,7 @@ function Layout(props) {
                   </Route>
                   <Route path="/blog/:idRaw" element={<PostPage preloadList={[Home, Blog]} />}/>
                 </Routes>
-              </AnimatePresence>
+              {/* </AnimatePresence> */}
             </Suspense>
           </Grid>
         </Grid>
