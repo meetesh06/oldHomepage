@@ -88,8 +88,8 @@ function Layout(props) {
 
           </Grid>
           <Grid item xs={12} sm={isMain ? 6 : 8} md={8} lg={9}>
-            <Suspense fallback={<LinearProgress color="success"/>}>
-              <AnimatePresence initial={false} exitBeforeEnter>
+            <Suspense fallback={<div></div>}>
+              <AnimatePresence exitBeforeEnter>
                 <Routes location={location} key={location.pathname}>
                   <Route
                     path="/"

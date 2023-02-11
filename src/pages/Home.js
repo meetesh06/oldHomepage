@@ -7,39 +7,41 @@ import {AnimatePresence, motion} from 'framer-motion';
 import { useEffect } from "react";
 
 
-let firstLoad = false
 
 function Home(props) {
   const staticContentVariants = {
-    initial: {opacity: 0, scale: 0.90 },
     show: {
       opacity: 1,
-      scale: 1
+      scale: 1,
+      transition: {
+        duration: 0.3
+      }
     },
     out: {
       opacity: 0,
-      scale: 0.90
+      scale: 0.9,
+      transition: {
+        duration: 0.3
+      }
     }
   }
 
   const { preloadList } = props;
-  useEffect(() => {
+
+  const doPreload = () => {
     preloadList.forEach(e => {
       e.preload()
     })
-  }, []);
-  let firstLoadCheck = () => {
-    if (!firstLoad) { firstLoad = true; return false; }
-    return true
   }
   return (
-    // <AnimatePresence initial={firstLoadCheck()}>
+    <motion.div
+      initial="out"
+      animate="show"
+      exit="out"
+      variants={staticContentVariants}
+      onAnimationComplete={doPreload}
+    >
       <Masonry 
-        component={motion.div}
-        initial="initial"
-        animate="show"
-        exit="out"
-        variants={staticContentVariants}
         columns={{ xs: 1, sm: 1, md: 3, lg: 3 }}
         spacing={0}
         >
@@ -64,7 +66,7 @@ function Home(props) {
         <TextCard key={`home-${8}`} title="Education" textList={EDUCATION}/>
 
       </Masonry>
-    // </AnimatePresence>
+    </motion.div>
   )
 }
 
