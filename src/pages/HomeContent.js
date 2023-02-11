@@ -8,7 +8,7 @@ import PostPage from '../components/PostPage'
 import NavBar from '../components/NavBar'
 
 import { motion } from 'framer-motion';
-import { Grid, Hidden, LinearProgress, Paper } from '@mui/material';
+import { Box, Grid, Hidden, LinearProgress, Paper } from '@mui/material';
 
 import RightSidebar from '../components/RightSidebar';
 import { useSelector } from 'react-redux';
@@ -154,14 +154,18 @@ function HomeContent(props) {
                 !isMain && 
                 <RightSidebar />
               }
-              <ImageCard
-                index="main-image"
-                imageUri={IMAGEURI}
-                title={USERNAME} 
-                text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
-                links={isMain ? undefined : CONTACTLINKS}
-                small={!isMain}
-                />
+              <Box
+                sx={{ display: { xs: isMain || isBlog ? 'block' : 'none', md: 'block' } }}
+                >
+                <ImageCard
+                  index="main-image"
+                  imageUri={IMAGEURI}
+                  title={USERNAME} 
+                  text={isMain ? ABOUTUSER : GETINTOUCHTEXT}
+                  links={isMain ? undefined : CONTACTLINKS}
+                  small={!isMain}
+                  />
+              </Box>
 
 
               {

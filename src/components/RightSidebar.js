@@ -221,7 +221,6 @@ function RightSidebar(props) {
   }
 
   return (
-    <Hidden mdDown implementation="css">
       <Paper
         component={motion.div} 
         initial="hidden"
@@ -280,7 +279,6 @@ function RightSidebar(props) {
 
                   
       </Paper>
-    </Hidden>
   );
 }
 

@@ -255,6 +255,7 @@ function HomeContent(props) {
   const navigate = useNavigate();
   return loadingPost ? <LinearProgress variant="indeterminate" /> :
   <motion.div
+    key="idRaw"
     initial="out"
     animate="in"
     exit="out"
@@ -262,7 +263,6 @@ function HomeContent(props) {
     transition={pageTransitions}
   >
     
-    <AnimatePresence mode='wait'>
       <div className={classes.actionBar}>
         <Tooltip title="Close" aria-label="close" arrow>
           {/* <Link to="/"> */}
@@ -306,10 +306,6 @@ function HomeContent(props) {
             </div>
         }
       </Paper>
-
-      
-
-    </AnimatePresence>
   </motion.div>;
 }
 
