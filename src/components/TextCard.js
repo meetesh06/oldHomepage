@@ -5,7 +5,10 @@ import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import { Button, CardActions } from '@mui/material';
 import { useTheme } from '@emotion/react';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from "react-intersection-observer";
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -22,7 +25,16 @@ const useStyles = makeStyles((theme) => ({
 export default function TextCard(props) {
   const classes = useStyles();
   const { title, text, links, textList, index } = props
-  const [hovered, setHovered] = React.useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const controls = useAnimation();
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("show");
+    }
+  }, [controls, inView]);
 
   const listContainer = {
     hidden: { opacity: 0 },
@@ -30,7 +42,6 @@ export default function TextCard(props) {
       opacity: 1,
       transition: {
         staggerChildren: 0.2
-        // staggerDirection: -1
       }
     }
   }
@@ -53,7 +64,6 @@ export default function TextCard(props) {
             scale: 1.02,
           }
         }}
-        // style={{ paddingBottom: 50 }}
         onHoverStart={() => setHovered(true)}
         onHoverEnd={() => setHovered(false)}
         raised={hovered}
@@ -69,10 +79,12 @@ export default function TextCard(props) {
               }
           </Typography>
           <Typography 
+            ref={ref}
             component={motion.ul}
             variants={listContainer}
             initial="hidden"
-            animate="show"
+            animate={controls}
+            // animate="show"
             variant="body"
             style={{
               padding: 0
