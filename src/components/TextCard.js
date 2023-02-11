@@ -4,7 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import { Button, CardActions } from '@mui/material';
-import { useTheme } from '@emotion/react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from "react-intersection-observer";
 import { useState } from 'react';

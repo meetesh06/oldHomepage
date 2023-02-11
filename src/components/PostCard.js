@@ -4,7 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { useTheme } from '@emotion/react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { parsePostUrl } from './helper';

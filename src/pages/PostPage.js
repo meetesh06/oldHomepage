@@ -46,9 +46,9 @@ import { selectSecret } from '../features/secretState';
 
 import Crypto from "crypto-js";
 import RightSidebar from '../components/RightSidebar';
-import { Close, Undo } from '@material-ui/icons';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Close } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {

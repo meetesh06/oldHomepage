@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 
 import './App.css';
 
-import { CssBaseline, } from '@material-ui/core';
+import { CssBaseline } from '@mui/material';
 import { Alert, Container, responsiveFontSizes, ScopedCssBaseline } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import useFetch from './hooks/useFetch';
