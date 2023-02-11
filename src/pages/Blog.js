@@ -14,20 +14,14 @@ import {motion} from 'framer-motion';
 
 function Blog(props) {
   const staticContentVariants = {
-    hidden: {opacity: 0, scale: 0.90 },
+    initial: {opacity: 0, scale: 0.90 },
     show: {
       opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.3
-      }
+      scale: 1
     },
     out: {
       opacity: 0,
-      scale: 0.90,
-      transition: {
-        duration: 10
-      }
+      scale: 0.90
     }
   }
 
@@ -41,13 +35,20 @@ function Blog(props) {
     }
   }, [post]);
 
+  const { preloadList } = props;
+  useEffect(() => {
+    preloadList.forEach(e => {
+      e.preload()
+    })
+  }, []);
+
   if (!posts.posts) {
     return <LinearProgress color="secondary" />
   }
 
   return (
     <motion.div 
-      initial="hidden"
+      initial="initial"
       animate="show"
       exit="out"
       variants={staticContentVariants}

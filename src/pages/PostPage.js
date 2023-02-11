@@ -139,6 +139,13 @@ function HomeContent(props) {
   const [found, setFound] = useState(false);
   const navigate = useNavigate();
 
+  const { preloadList } = props;
+  useEffect(() => {
+    preloadList.forEach(e => {
+      e.preload()
+    })
+  }, []);
+
   useEffect(() => {
     const renderPostFromLink = (meta) => {
       axios.get(nonCachedRequest(URI_POST_FILES+'/'+meta.link, {}))
@@ -232,7 +239,7 @@ function HomeContent(props) {
     },
     out: {
       opacity: 0,
-      y: "10vh"
+      y: "30vh"
     },
     FadeIn: {
       opacity: 1
@@ -250,8 +257,7 @@ function HomeContent(props) {
   
   return loadingPost ? <LinearProgress variant="indeterminate" /> :
   <motion.div
-    key="idRaw"
-    initial="out"
+    initial="out"  
     animate="in"
     exit="out"
     variants={pageVariants}

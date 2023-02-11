@@ -19,6 +19,7 @@ import { CssBaseline, } from '@material-ui/core';
 import { Alert, Container, responsiveFontSizes, ScopedCssBaseline } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 import useFetch from './hooks/useFetch';
+import { HashRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,12 +111,15 @@ function App(props) {
   theme = responsiveFontSizes(theme);
   
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <ScopedCssBaseline enableColorScheme>
-        <MainContainer/>
-      </ScopedCssBaseline>
-    </ThemeProvider>
+    <HashRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ScopedCssBaseline enableColorScheme>
+          <MainContainer/>
+        </ScopedCssBaseline>
+      </ThemeProvider>
+
+    </HashRouter>
   );
 }
 
