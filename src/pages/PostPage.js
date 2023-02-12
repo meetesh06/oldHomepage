@@ -5,9 +5,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import {JSONPath} from 'jsonpath-plus';
 import ReactMarkdown from 'react-markdown';
-import Tex from '@matejmazur/react-katex'
+// import Tex from '@matejmazur/react-katex'
 import math from 'remark-math'
-import 'katex/dist/katex.min.css'
+// import 'katex/dist/katex.min.css'
 import Divider from '@mui/material/Divider';
 
 import {
@@ -46,9 +46,10 @@ import { selectSecret } from '../features/secretState';
 
 import Crypto from "crypto-js";
 import RightSidebar from '../components/RightSidebar';
-import { Close, Undo } from '@material-ui/icons';
+
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Close } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
   actionBar: {
@@ -138,6 +139,7 @@ function HomeContent(props) {
   const [postData, setPostData] = useState("");
   const [found, setFound] = useState(false);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const renderPostFromLink = (meta) => {
@@ -192,6 +194,13 @@ function HomeContent(props) {
     }
   }, [idRaw]);
 
+  const { preloadList } = props;
+  useEffect(() => {
+    preloadList.forEach(e => {
+      e.preload()
+    })
+  }, [posts]);
+
   if (!posts) {
     return <LinearProgress color="secondary" />
   }
@@ -217,8 +226,8 @@ function HomeContent(props) {
   
 
   const renderers = {
-    math: ({value}) => <Tex block math={value} />,
-    inlineMath: ({value}) => <Tex math={value} />,
+    // math: ({value}) => <Tex block math={value} />,
+    // inlineMath: ({value}) => <Tex math={value} />,
     code: ({language, value}) => {
       return <SyntaxHighlighter wrapLongLines wrapLines style={coldarkDark} language={language} children={value} />
     },

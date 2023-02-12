@@ -26,7 +26,7 @@ function Blog(props) {
       opacity: 0,
       scale: 0.90,
       transition: {
-        duration: 10
+        duration: 0.3
       }
     }
   }
@@ -40,6 +40,13 @@ function Blog(props) {
       element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
     }
   }, [post]);
+
+  const { preloadList } = props;
+  useEffect(() => {
+    preloadList.forEach(e => {
+      e.preload()
+    })
+  }, [posts]);
 
   if (!posts.posts) {
     return <LinearProgress color="secondary" />

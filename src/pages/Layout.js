@@ -6,7 +6,7 @@ import ImageCard from '../components/ImageCard'
 import TextCard from '../components/TextCard'
 import NavBar from '../components/NavBar'
 import { Box, Grid, LinearProgress } from '@mui/material';
-
+import { lazyWithPreload } from "react-lazy-with-preload";
 import RightSidebar from '../components/RightSidebar';
 import {
   IMAGEURI,
@@ -24,11 +24,13 @@ import {
   HashRouter
 } from "react-router-dom";
 import { Container } from '@mui/system';
+import { AnimatePresence } from 'framer-motion';
 // import Home from './Home';
 
-const Home = React.lazy(() => import('./Home'));
-const Blog = React.lazy(() => import('./Blog'));
-const PostPage = React.lazy(() => import('./PostPage'));
+const Blog = lazyWithPreload(() => import("./Blog"));
+const Home = lazyWithPreload(() => import("./Home"));
+const PostPage = lazyWithPreload(() => import("./PostPage"));
+
 function Layout(props) {
   const location = useLocation();
   const isMain = location.pathname === "/"
@@ -71,7 +73,19 @@ function Layout(props) {
 
           </Grid>
           <Grid item xs={12} sm={isMain ? 6 : 8} md={8} lg={9}>
-            <Outlet />            
+            <Suspense fallback={<LinearProgress color="success"/>}>
+              {/* <AnimatePresence initial={false}> */}
+                <Routes location={location} key={location.pathname}>
+                  <Route
+                    path="/"
+                    element={<Home preloadList={[Blog, PostPage]} />}
+                  />
+                  <Route path="/blog" element={<Blog preloadList={[Home, PostPage]} />}>
+                  </Route>
+                  <Route path="/blog/:idRaw" element={<PostPage preloadList={[Home, Blog]} />}/>
+                </Routes>
+              {/* </AnimatePresence> */}
+            </Suspense>
           </Grid>
         </Grid>
       </Container>
@@ -84,19 +98,7 @@ function Layout(props) {
 function RoutingWrapper() {
   return(
     <HashRouter>
-      <Suspense fallback={<LinearProgress color="success"/>}>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route
-              path=""
-              element={<Home />}
-            />
-            <Route path="blog" element={<Blog />}>
-            </Route>
-            <Route path="blog/:idRaw" element={<PostPage />}/>
-          </Route>
-        </Routes>
-      </Suspense>
+      <Layout />
     </HashRouter>
   )
 }

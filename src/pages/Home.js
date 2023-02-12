@@ -20,7 +20,7 @@ function Home(props) {
       opacity: 0,
       scale: 0.90,
       transition: {
-        duration: 10
+        duration: 0.3
       }
     }
   }
