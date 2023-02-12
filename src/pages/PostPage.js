@@ -194,7 +194,7 @@ function HomeContent(props) {
       renderPostFromLink(meta);
       setFound(true);
     }
-  }, [idRaw]);
+  }, [idRaw, posts]);
 
   const { preloadList } = props;
   useEffect(() => {
