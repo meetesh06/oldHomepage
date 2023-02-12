@@ -6,8 +6,9 @@ import Typography from '@mui/material/Typography';
 import {JSONPath} from 'jsonpath-plus';
 import ReactMarkdown from 'react-markdown';
 // import Tex from '@matejmazur/react-katex'
-import math from 'remark-math'
-// import 'katex/dist/katex.min.css'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
+import 'katex/dist/katex.min.css' //
 import Divider from '@mui/material/Divider';
 
 import {
@@ -96,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.pxToRem(13)
   },
   markdownHolder: {
+    // overflow: 'scroll'
     // padding: theme.spacing(2)
   },
   markdownImage: {
@@ -224,16 +226,6 @@ function HomeContent(props) {
     return <img {...props} className={classes.markdownImage} />
   }
   
-
-  const renderers = {
-    // math: ({value}) => <Tex block math={value} />,
-    // inlineMath: ({value}) => <Tex math={value} />,
-    code: ({language, value}) => {
-      return <SyntaxHighlighter wrapLongLines wrapLines style={coldarkDark} language={language} children={value} />
-    },
-    image: ImageRenderer
-  }
-
   const pageVariants = {
     in: {
       opacity: 1,
@@ -269,13 +261,11 @@ function HomeContent(props) {
     
       <div className={classes.actionBar}>
         <Tooltip title="Close" aria-label="close" arrow>
-          {/* <Link to="/"> */}
             <IconButton onClick={() => {
               navigate('/blog')
             }} color="primary" aria-label="close" size="large">
               <Close />
             </IconButton>
-          {/* </Link> */}
         </Tooltip>
       </div>
       <Paper
@@ -304,7 +294,29 @@ function HomeContent(props) {
                 </Typography>
               </span>
               <Divider className={classes.divider} variant="middle" />
-              <ReactMarkdown className={classes.markdownHolder} plugins={[math]} renderers={renderers}>
+              <ReactMarkdown
+                components={{
+                  img: ImageRenderer,
+                  code({node, inline, className, children, ...props}) {
+                    const match = /language-(\w+)/.exec(className || '')
+                    return (
+                      <SyntaxHighlighter
+                        wrapLines
+                        // wrapLongLines
+                        children={String(children).replace(/\n$/, '')}
+                        style={coldarkDark}
+                        language={match ? match[1] : undefined}
+                        PreTag="div"
+                        {...props}
+                      />
+                    )
+                  }
+                }}            
+                remarkPlugins={[remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+                className={classes.markdownHolder} 
+                >
+
                 {postData}
               </ReactMarkdown>
             </div>
