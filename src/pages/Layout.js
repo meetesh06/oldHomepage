@@ -21,7 +21,7 @@ import {
   Route,
   Routes,
   useLocation,
-  HashRouter
+  BrowserRouter
 } from "react-router-dom";
 import { Container } from '@mui/system';
 import { AnimatePresence } from 'framer-motion';
@@ -97,9 +97,9 @@ function Layout(props) {
 
 function RoutingWrapper() {
   return(
-    <HashRouter>
+    <BrowserRouter>
       <Layout />
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 
