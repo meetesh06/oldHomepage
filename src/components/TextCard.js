@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 import { Button, CardActions } from '@mui/material';
 import { useTheme } from '@emotion/react';
 import { motion, useAnimation } from 'framer-motion';
@@ -10,20 +10,32 @@ import { useInView } from "react-intersection-observer";
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
+const PREFIX = 'TextCard';
+
+const classes = {
+  card: `${PREFIX}-card`,
+  newsItem: `${PREFIX}-newsItem`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.card}`]: {
     // width: 325,
     padding: theme.spacing(1)
   },
-  newsItem: { 
+
+  [`& .${classes.newsItem}`]: { 
     marginRight: theme.spacing(1),
     fontWeight: 'bold', 
     color: theme.palette.type === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark
   }
-}))
+}));
 
 export default function TextCard(props) {
-  const classes = useStyles();
+
   const { title, text, links, textList, index } = props
   const [hovered, setHovered] = useState(false);
 
@@ -52,7 +64,7 @@ export default function TextCard(props) {
   }
   
   return (
-    <div className={classes.card} >
+    <Root className={classes.card} >
 
       <Card
         key={index}
@@ -119,6 +131,6 @@ export default function TextCard(props) {
           )
         }
       </Card>
-    </div>
+    </Root>
   );
 }

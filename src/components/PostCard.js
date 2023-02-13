@@ -1,30 +1,42 @@
 import * as React from 'react';
+import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { useTheme } from '@emotion/react';
 import { motion } from 'framer-motion';
 import { parsePostUrl } from './helper';
 import Link from 'next/link';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
+const PREFIX = 'PostCard';
+
+const classes = {
+  card: `${PREFIX}-card`,
+  newsItem: `${PREFIX}-newsItem`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.card}`]: {
     // width: 325,
     // padding: theme.spacing(1),
     // paddingTop: 0,
     // paddingBottom: theme.spacing(2)
   },
-  newsItem: { 
+
+  [`& .${classes.newsItem}`]: { 
     marginRight: theme.spacing(1),
     fontWeight: 'bold', 
     color: theme.palette.type === 'dark' ? theme.palette.primary.light : theme.palette.primary.dark
   }
-}))
+}));
 
 export default function PostCard(props) {
-  const classes = useStyles();
+
   const { post } = props
   const [hovered, setHovered] = React.useState(false);
 
@@ -45,7 +57,7 @@ export default function PostCard(props) {
   }
   
   return (
-    <div className={classes.card} >
+    <Root className={classes.card} >
 
       <Card
         layout 
@@ -82,6 +94,6 @@ export default function PostCard(props) {
             </CardActionArea>
           </Link>
       </Card>
-    </div>
+    </Root>
   );
 }

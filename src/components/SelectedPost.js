@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { styled } from '@mui/material/styles';
+
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
-import { makeStyles } from '@mui/styles';
 
 import { useSelector } from 'react-redux';
 import { selectCurrentPost } from '../features/currentPostSlice';
@@ -17,33 +18,55 @@ import {
   Link
 } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const PREFIX = 'LatestPost';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  date: `${PREFIX}-date`,
+  postContainer: `${PREFIX}-postContainer`,
+  skeletonContainer: `${PREFIX}-skeletonContainer`,
+  cardPostTitle: `${PREFIX}-cardPostTitle`,
+  cardPostDesc: `${PREFIX}-cardPostDesc`,
+  heading: `${PREFIX}-heading`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.root}`]: {
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3),
     marginTop: theme.spacing(2),
   },
-  date: {
+
+  [`& .${classes.date}`]: {
     fontWeight: theme.typography.fontWeightBold,
     fontSize: theme.typography.pxToRem(12),
     color: theme.textDate,
     marginTop: theme.spacing(2)
   },
-  postContainer: {
+
+  [`& .${classes.postContainer}`]: {
     marginTop: theme.spacing(2),
     width: "100%",
   },
-  skeletonContainer: {
+
+  [`& .${classes.skeletonContainer}`]: {
     marginTop: theme.spacing(2),
   },
-  cardPostTitle: {
+
+  [`& .${classes.cardPostTitle}`]: {
     fontWeight: theme.typography.fontWeightBold
   },
-  cardPostDesc: {
+
+  [`& .${classes.cardPostDesc}`]: {
     fontWeight: theme.typography.fontWeightRegular,
     fontSize: theme.typography.pxToRem(13)
   },
-  heading: {
+
+  [`& .${classes.heading}`]: {
     fontWeight: theme.typography.fontWeightBold,
     fontSize: theme.typography.pxToRem(25)
   }
@@ -52,15 +75,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 function LatestPost(props) {
-  const classes = useStyles();
+
   let post = useSelector(selectCurrentPost);
   let postLatest = useSelector(getPostsJson);
   if (postLatest) {
     postLatest = postLatest.posts[0];
   }
 
-  return(
-    <div className={classes.root}>
+  return (
+    <Root className={classes.root}>
       {
         post && 
         <div>
@@ -84,7 +107,7 @@ function LatestPost(props) {
           </Card>
         </div>
       }
-    </div>
+    </Root>
   );
 }
 

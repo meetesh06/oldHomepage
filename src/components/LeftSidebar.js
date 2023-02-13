@@ -1,9 +1,9 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import Hidden from '@mui/material/Hidden';
 import Avatar from '@mui/material/Avatar';
 
-import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 
 import IconButton from '@mui/material/IconButton';
@@ -24,30 +24,50 @@ import {
 
 import BLOG from '../config';
 
-const leftDrawerWidth = 240;
+const PREFIX = 'LeftSidebar';
 
-const useStyles = makeStyles((theme) => ({
-  drawer: {
+const classes = {
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  leftSide: `${PREFIX}-leftSide`,
+  leftTop: `${PREFIX}-leftTop`,
+  siteName: `${PREFIX}-siteName`,
+  siteDescription: `${PREFIX}-siteDescription`,
+  avatarContainer: `${PREFIX}-avatarContainer`,
+  largeAvatar: `${PREFIX}-largeAvatar`,
+  authorName: `${PREFIX}-authorName`,
+  authorDes: `${PREFIX}-authorDes`
+};
+
+const Root = styled('nav')((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.drawer}`]: {
     [theme.breakpoints.up('md')]: {
       width: leftDrawerWidth,
       flexShrink: 0,
     },
   },
-  drawerPaper: {
+
+  [`& .${classes.drawerPaper}`]: {
     width: leftDrawerWidth,
   },
 
-  leftSide: {
+  [`& .${classes.leftSide}`]: {
     backgroundColor: theme.blogLeftDrawerBackground,
     flexGrow: 1,
     padding: theme.spacing(2),
     display: "flex",
     flexDirection: "column"
   },
-  leftTop: {
+
+  [`& .${classes.leftTop}`]: {
     flex: 1,
   },
-  siteName: {
+
+  [`& .${classes.siteName}`]: {
     fontWeight: theme.typography.fontWeightLight,
     color: theme.blogLogo,
     fontSize: "3rem",
@@ -56,40 +76,46 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(3),
     textDecoration: "none"
   },
-  siteDescription: {
+
+  [`& .${classes.siteDescription}`]: {
     ...theme.typography.body2,
     color: theme.blogDescription,
     fontSize: "1rem"
   },
-  avatarContainer: {
+
+  [`& .${classes.avatarContainer}`]: {
     display: "flex",
     flexDirection: "column",
   },
-  largeAvatar: {
+
+  [`& .${classes.largeAvatar}`]: {
     width: leftDrawerWidth - 150,
     height: leftDrawerWidth - 150,
     alignSelf: "center",
   },
-  authorName: {
+
+  [`& .${classes.authorName}`]: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
     color: theme.authorName,
     fontWeight: theme.typography.fontWeightRegular,
     alignSelf: "center",
   },
-  authorDes: {
+
+  [`& .${classes.authorDes}`]: {
     ...theme.typography.caption,
     color: theme.authorDescription,
     fontWeight: theme.typography.fontWeightMedium,
     padding: theme.spacing(),
     borderLeft: `2px solid ${theme.palette.primary.main}`
-  },
-
+  }
 }));
+
+const leftDrawerWidth = 240;
 
 function LeftSidebar(props) {
   const { window } = props;
-  const classes = useStyles();
+
   const container = window !== undefined ? () => window().document.body : undefined;
   const mobileOpen =  useSelector(selectVisiblity);
   const dispatch = useDispatch();
@@ -138,7 +164,7 @@ function LeftSidebar(props) {
   
 
   return (
-    <nav className={classes.drawer} aria-label="blog details">
+    <Root className={classes.drawer} aria-label="blog details">
       <Hidden smUp implementation="css">
         <Drawer
           container={container}
@@ -166,7 +192,7 @@ function LeftSidebar(props) {
           {drawer}
         </Drawer>
       </Hidden>
-    </nav>
+    </Root>
   );
 }
 

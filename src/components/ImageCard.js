@@ -1,36 +1,48 @@
 import * as React from 'react';
+import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import {
   AnimatePresence,
   motion
 } from 'framer-motion';
 
-const useStyles = makeStyles((theme) => ({
-  card: {
+const PREFIX = 'ImageCard';
+
+const classes = {
+  card: `${PREFIX}-card`,
+  newsItem: `${PREFIX}-newsItem`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.card}`]: {
     // width: 325,
     // margin: theme.spacing(4),
     padding: theme.spacing(1)
   },
-  newsItem: { 
+
+  [`& .${classes.newsItem}`]: { 
     marginRight: theme.spacing(1),
     fontWeight: 'bold', 
     color: theme.palette.type === 'dark' ? theme.palette.info.dark : theme.palette.info.light
   }
-}))
+}));
 
 export default function ImageCard(props) {
-  const classes = useStyles();
+
   const [hovered, setHovered] = React.useState(false);
 
   const { title, text, imageUri, links, index, small } = props
 
   return (
-    <div
+    <Root
     className={small ? undefined : classes.card}
       >
       <Card
@@ -77,6 +89,6 @@ export default function ImageCard(props) {
             )
           }
       </Card>
-    </div>
+    </Root>
   );
 }

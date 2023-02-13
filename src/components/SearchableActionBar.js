@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 
 import TextField from '@mui/material/TextField';
 import { Autocomplete } from '@mui/material';
@@ -10,8 +10,18 @@ import { getPostsJson } from '../features/allPostsSlice';
 import { updateCurrentPost } from '../features/currentPostSlice';
 import { selectVisiblity, updateVisiblity } from '../features/sidebarState';
 
-const useStyles = makeStyles((theme) => ({
-  actionBar: {
+const PREFIX = 'SearchableActionBar';
+
+const classes = {
+  actionBar: `${PREFIX}-actionBar`
+};
+
+const Root = styled('div')((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.actionBar}`]: {
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(3),
     marginRight: theme.spacing(3)
@@ -20,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function SearchableActionBar(props) {
-  const classes = useStyles();
+
 
   const { posts } = useSelector(getPostsJson);
   const toggle =  useSelector(selectVisiblity);
@@ -33,7 +43,7 @@ function SearchableActionBar(props) {
   }
 
   return (
-    <div className={classes.actionBar}>
+    <Root className={classes.actionBar}>
       {
         posts &&
         <Autocomplete
@@ -45,7 +55,7 @@ function SearchableActionBar(props) {
           )}
         />
       }
-    </div>
+    </Root>
   );
 }
 

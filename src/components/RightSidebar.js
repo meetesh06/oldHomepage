@@ -1,7 +1,7 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import Hidden from '@mui/material/Hidden';
 
-import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -42,14 +42,20 @@ import {
   motion
 } from 'framer-motion';
 import { Paper } from '@mui/material';
-const BLOG = {
-  rightDrawerWidth: 300
-}
+const PREFIX = 'RightSidebar';
 
+const classes = {
+  rightAside: `${PREFIX}-rightAside`,
+  lineageList: `${PREFIX}-lineageList`,
+  passButton: `${PREFIX}-passButton`
+};
 
-
-const useStyles = makeStyles((theme) => ({
-  rightAside: {
+const StyledPaper = styled(Paper)((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.rightAside}`]: {
     marginBottom: theme.spacing(1),
     // borderStyle: 'solid',
     // borderWidth: 0.2,
@@ -57,17 +63,25 @@ const useStyles = makeStyles((theme) => ({
     // paddingLeft: theme.spacing(1),
     // paddingRight: theme.spacing(1)
   },
+
   // lineageHolder: {
   //   marginTop: theme.spacing(2)
   // },
-  lineageList: {
+  [`& .${classes.lineageList}`]: {
     maxHeight: 300,
     overflow: "scroll"
   },
-  passButton: {
+
+  [`& .${classes.passButton}`]: {
     marginTop: 10
   }
 }));
+
+const BLOG = {
+  rightDrawerWidth: 300
+}
+
+
 
 function SecretPosts() {
   const getSorted = (a) => {
@@ -82,7 +96,7 @@ function SecretPosts() {
   const secretPass = useSelector(selectSecret);
   const posts = useSelector(getPostsJson);
 
-  const classes = useStyles();  
+
 
   const dispatch = useDispatch();
 
@@ -180,7 +194,7 @@ function SecretPosts() {
 }
 
 function RightSidebar(props) {
-  const classes = useStyles();  
+
   const posts = useSelector(getPostsJson);
   const post = useSelector(selectCurrentPost);
 
@@ -224,64 +238,64 @@ function RightSidebar(props) {
   }
 
   return (
-      <Paper
-        component={motion.div} 
-        initial="hidden"
-        animate="show"
-        variants={staticContentVariants}
-        className={classes.rightAside}>
+    <StyledPaper
+      component={motion.div} 
+      initial="hidden"
+      animate="show"
+      variants={staticContentVariants}
+      className={classes.rightAside}>
+      
+
+
+      {
+        lineageData.name === undefined ? (<div></div>) : (
+          <div className={classes.lineageHolder}>
+            <ListItem button onClick={handleClick}>
+              <ListItemIcon>
+                <AccountTree />
+              </ListItemIcon>
+              <ListItemText primary={lineageData.name} />
+              {open ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List className={classes.lineageList} dense={true}>
+                {
+                  lineageData.list.map((post, index) => {
+                    return (
+                      <ListItem key={"lineage-"+index} onClick={() => {
+                          // navigate(parsePostUrl(post.id, post.title))
+                        }} selected={post.id === lineageData.id} button>
+                        <ListItemAvatar>
+                          {
+                            post.id === lineageData.id ?
+                            <Avatar >
+                              <TurnedInIcon />
+                            </Avatar> :
+                            <Avatar >
+                              <TurnedInNotIcon />
+                            </Avatar>  
+
+                          }
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={post.title}
+                          secondary={post.created}
+                        />
+                      </ListItem>
+                    );
+                  })
+                }                  
+              </List>
+            </Collapse>
+          </div>
+        )
+      }
+      
         
+      
 
-
-        {
-          lineageData.name === undefined ? (<div></div>) : (
-            <div className={classes.lineageHolder}>
-              <ListItem button onClick={handleClick}>
-                <ListItemIcon>
-                  <AccountTree />
-                </ListItemIcon>
-                <ListItemText primary={lineageData.name} />
-                {open ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-              <Collapse in={open} timeout="auto" unmountOnExit>
-                <List className={classes.lineageList} dense={true}>
-                  {
-                    lineageData.list.map((post, index) => {
-                      return (
-                        <ListItem key={"lineage-"+index} onClick={() => {
-                            // navigate(parsePostUrl(post.id, post.title))
-                          }} selected={post.id === lineageData.id} button>
-                          <ListItemAvatar>
-                            {
-                              post.id === lineageData.id ?
-                              <Avatar >
-                                <TurnedInIcon />
-                              </Avatar> :
-                              <Avatar >
-                                <TurnedInNotIcon />
-                              </Avatar>  
-
-                            }
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary={post.title}
-                            secondary={post.created}
-                          />
-                        </ListItem>
-                      );
-                    })
-                  }                  
-                </List>
-              </Collapse>
-            </div>
-          )
-        }
-        
-          
-        
-
-                  
-      </Paper>
+                
+    </StyledPaper>
   );
 }
 
