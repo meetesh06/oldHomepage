@@ -1,7 +1,7 @@
 import { Masonry } from "@mui/lab";
 import TextCard from "../components/TextCard";
 
-import { NEWSITEMS, RESEARCHINTERESTS, LOOKINGFORTEXT, ABOUTME, SKILLSTEXT, SKILLSITEMS, QUOTE, INTERESTS, EDUCATION } from "../config";
+import { NEWSITEMS, RESEARCHINTERESTS, LOOKINGFORTEXT, ABOUTME, SKILLSTEXT, SKILLSITEMS, QUOTE, INTERESTS, EDUCATION, HIGHLIGHTSTEXT, HIGHLIGHTSLINKS } from "../config";
 
 import {motion} from 'framer-motion';
 
@@ -53,6 +53,7 @@ function Home(props) {
         text={INTERESTS}
       />
       <TextCard key={`home-${8}`} title="Education" textList={EDUCATION}/>
+      <TextCard key={`home-${9}`} title="Highlights" text={HIGHLIGHTSTEXT} links={HIGHLIGHTSLINKS}/>
 
     </Masonry>
   )

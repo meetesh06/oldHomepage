@@ -46,3 +46,8 @@ export const EDUCATION = [
 ]
 
 export const ABOUTME = "I absolutely love everything about computers and love to dive deeper into what makes them tick. I find myself comfortable in very high level abstractions like DSLs or React and also in low level things like code generation, assembly, C++."
+export const HIGHLIGHTSTEXT = "Working with Dr. Manas Thakur and the CompL group has been the most rewarding and fulfilling part of my life :) I am proud of."
+export const HIGHLIGHTSLINKS = [
+  ["https://www.cse.iitb.ac.in/~manas/","Dr. Manas Thakur"],
+  ["https://compl.iitmandi.ac.in/","CompL"],
+]
