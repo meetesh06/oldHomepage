@@ -58,3 +58,12 @@ export const HIGHLIGHTSLINKS = [
   ["https://www.cse.iitb.ac.in/~manas/","Dr. Manas Thakur"],
   ["https://compl.iitmandi.ac.in/","CompL"],
 ]
+
+export const GTAG_ADDR = "https://www.googletagmanager.com/gtag/js?id=G-6Z2X65E38W"
+export const GTAG_SCRIPT = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-6Z2X65E38W');
+`

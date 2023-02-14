@@ -2,13 +2,27 @@ import * as React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
 import createEmotionCache from "../utils/createEmotionCache";
+import Script from "next/script";
+import { GTAG_ADDR, GTAG_SCRIPT } from "@/config";
 
 export default class MyDocument extends Document {
  render() {
    return (
      <Html lang="en">
        <Head>
-         {this.props.emotionStyleTags}
+        {
+          GTAG_ADDR && <Script async src={GTAG_ADDR} />
+        }
+        {
+          GTAG_SCRIPT && 
+            <Script id="google-tag-manager" strategy="afterInteractive">
+              {GTAG_SCRIPT}
+            </Script>
+        }
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+        {this.props.emotionStyleTags}
        </Head>
        <body>
          <Main />
