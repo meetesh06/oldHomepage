@@ -1,12 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import Hidden from '@mui/material/Hidden';
 
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-
-import { sortPosts } from './helper';
+import { sortPosts } from '../helper';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -27,7 +22,7 @@ import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 //   Link, useNavigate
 // } from "react-router-dom";
 
-import { parsePostUrl } from './helper';
+// import { parsePostUrl } from '../helper';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentPost } from '../store/currentPostSlice';
 import { getPostsJson } from '../store/allPostsSlice';

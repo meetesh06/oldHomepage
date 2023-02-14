@@ -1,5 +1,5 @@
 import { Masonry } from "@mui/lab";
-import TextCard from "./TextCard";
+import DisplayCard from "./DisplayCard";
 
 import { NEWSITEMS, RESEARCHINTERESTS, LOOKINGFORTEXT, ABOUTME, SKILLSTEXT, SKILLSITEMS, QUOTE, INTERESTS, EDUCATION, HIGHLIGHTSTEXT, HIGHLIGHTSLINKS } from "../config";
 
@@ -34,26 +34,26 @@ function Home(props) {
       columns={{ xs: 1, sm: 1, md: 3, lg: 3 }}
       spacing={0}
       >
-      <TextCard key={`home-${1}`} title="News" 
+      <DisplayCard key={`home-${1}`} title="News" 
               textList={NEWSITEMS}/>
-      <TextCard key={`home-${2}`} title="Research Interests" text={RESEARCHINTERESTS} />
+      <DisplayCard key={`home-${2}`} title="Research Interests" text={RESEARCHINTERESTS} />
 
-      <TextCard key={`home-${3}`} title="Looking For" text={LOOKINGFORTEXT} />
-      <TextCard key={`home-${4}`} title="Something About Me" text={ABOUTME} />
-      <TextCard
+      <DisplayCard key={`home-${3}`} title="Looking For" text={LOOKINGFORTEXT} />
+      <DisplayCard key={`home-${4}`} title="Something About Me" text={ABOUTME} />
+      <DisplayCard
               key={`home-${5}`}
               title="Skills"
               text={SKILLSTEXT}
               textList={SKILLSITEMS}
               />
-      <TextCard key={`home-${6}`} text={QUOTE} />
-      <TextCard
+      <DisplayCard key={`home-${6}`} text={QUOTE} />
+      <DisplayCard
         key={`home-${7}`}
         title="Interests"
         text={INTERESTS}
       />
-      <TextCard key={`home-${8}`} title="Education" textList={EDUCATION}/>
-      <TextCard key={`home-${9}`} title="Highlights" text={HIGHLIGHTSTEXT} links={HIGHLIGHTSLINKS}/>
+      <DisplayCard key={`home-${8}`} title="Education" textList={EDUCATION}/>
+      <DisplayCard key={`home-${9}`} title="Highlights" text={HIGHLIGHTSTEXT} links={HIGHLIGHTSLINKS}/>
 
     </Masonry>
   )

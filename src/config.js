@@ -4,7 +4,14 @@ export const URI_POST_FILES = "/posts/"
 export const SITENAME = "Hello World";
 export const IMAGEURI = "/blog-pic.webp";
 export const USERNAME = "Meetesh Kalpesh Mehta";
-export const ABOUTUSER = "Hey there! I'm a research scholar @IIT Mandi working in the area of compilers.My latest work focuses on a JIT compiler for the R Programming Language where I tackle the problems of warmup times and deoptimization overheads. I also love to code in React, like this website. Apart from computers I also tinker a lot with Raspberry Pi's, Arduinos, etc in my free time.";
+
+export const TITLE_HOME = "Meetesh's Homepage 🏴‍☠️ 🏴‍☠️ 🏴‍☠️"
+export const TITLE_BLOG = "Meetesh's Blog"
+
+export const DESCRIPTION_BLOG = "This is the place where document all the things I do, it will have posts about IIT Mandi, Compilers, React, R and all computer related things."
+export const DESCRIPTION_HOME = "Hey there! I'm a research scholar @IIT Mandi working in the area of compilers."
+
+export const ABOUTUSER = "Hey there! I'm a research scholar @IIT Mandi working in the area of compilers. My latest work focuses on a JIT compiler for the R Programming Language where I tackle the problems of warmup times and deoptimization overheads. I also love to code in React, like this website. Apart from computers I also tinker a lot with Raspberry Pi's, Arduinos, etc in my free time.";
 
 export const GETINTOUCHTEXT = "Feel free to get in touch with me regarding anything :) [meeteshmehta4@gmail.com]";
 export const CONTACTLINKS = [

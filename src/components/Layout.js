@@ -2,8 +2,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import Head from 'next/head'
 
-import ImageCard from './ImageCard'
-import TextCard from './TextCard'
+import DisplayCard from './DisplayCard'
 import NavBar from './NavBar'
 import { Alert, Box, createTheme, CssBaseline, Grid, responsiveFontSizes, ScopedCssBaseline } from '@mui/material';
 import RightSidebar from './RightSidebar';
@@ -18,10 +17,10 @@ import {
 
 import { Container } from '@mui/system';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
-import useFetch from '@/hooks/useFetch';
+// import { useDispatch } from 'react-redux';
+// import useFetch from '@/hooks/useFetch';
 import { nonCachedRequest } from '@/helper';
-import { updatePostsJson } from '@/store/allPostsSlice';
+// import { updatePostsJson } from '@/store/allPostsSlice';
 
 function PageLayout(props) {
 
@@ -46,7 +45,7 @@ function PageLayout(props) {
             <Box
               sx={{ display: { xs: isMain || isBlog ? 'block' : 'none', md: 'block' } }}
               >
-              <ImageCard
+              <DisplayCard
                 index="main-image"
                 imageUri={IMAGEURI}
                 title={USERNAME} 
@@ -59,7 +58,7 @@ function PageLayout(props) {
 
             {
               isMain && 
-              <TextCard 
+              <DisplayCard 
                 index="main-infocard"
                 title="Get it touch?" 
                 text={GETINTOUCHTEXT}
@@ -82,32 +81,32 @@ const uniqueReq = nonCachedRequest(URI_POSTS)
 
 function Layout(props) {
 
-  // Hooks
-  const dispatch = useDispatch();
-  const { loading, response, error } = useFetch(uniqueReq)
-  const [alert, setAlert] = useState(null);
-  useEffect(() => {
-    const getAlertData = () => {
-      if (loading) {
-        return ["info", "Loading posts"]
-      }
-      if (error) {
-        return ["error", "Failed to load posts"]
-      }
-      if (response) {
-        dispatch(updatePostsJson(response.data));
-        return ["success", "Posts loaded"]
-      }
-    }
-    setAlert(getAlertData())
-    const timer = setTimeout(() => {
-      setAlert(null)
-    }, 2000);
+  // // Hooks
+  // const dispatch = useDispatch();
+  // const { loading, response, error } = useFetch(uniqueReq)
+  // const [alert, setAlert] = useState(null);
+  // useEffect(() => {
+  //   const getAlertData = () => {
+  //     if (loading) {
+  //       return ["info", "Loading posts"]
+  //     }
+  //     if (error) {
+  //       return ["error", "Failed to load posts"]
+  //     }
+  //     if (response) {
+  //       dispatch(updatePostsJson(response.data));
+  //       return ["success", "Posts loaded"]
+  //     }
+  //   }
+  //   setAlert(getAlertData())
+  //   const timer = setTimeout(() => {
+  //     setAlert(null)
+  //   }, 2000);
     
-    return () => {
-      clearTimeout(timer)
-    };
-  }, [loading])
+  //   return () => {
+  //     clearTimeout(timer)
+  //   };
+  // }, [loading])
 
 
   // const themeLight = createTheme({
@@ -133,11 +132,6 @@ function Layout(props) {
   return(
     <>
       <Head>
-        <title>Meetesh's Homepage 🏴‍☠️ 🏴‍☠️ 🏴‍☠️</title>
-        <meta
-          name="description"
-          content="My corner of this internet ;P"
-        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -150,7 +144,7 @@ function Layout(props) {
                   {props.children}
                 </PageLayout>
               </Box>
-              {
+              {/* {
                 alert && 
                 <Alert 
                   sx={{
@@ -162,7 +156,7 @@ function Layout(props) {
                   severity={alert[0]}>
                     {alert[1]}
                 </Alert>
-              }
+              } */}
           </React.Fragment>
           
         </ScopedCssBaseline>

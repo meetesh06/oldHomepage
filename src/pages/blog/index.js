@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { Divider, Hidden, LinearProgress, Skeleton, Typography } from '@mui/material';
-import PostCard from '../components/PostCard';
+import { Divider, Hidden } from '@mui/material';
 
 import { useSelector } from 'react-redux';
-import { selectCurrentPost } from '../store/currentPostSlice';
-import { getPostsJson } from '../store/allPostsSlice';
+import { selectCurrentPost } from '../../store/currentPostSlice';
+// import { getPostsJson } from '../../store/allPostsSlice';
 import { Masonry } from '@mui/lab';
 
+import { parsePostUrl } from "../../helper"
+
 import {motion} from 'framer-motion';
+import DisplayCard from '@/components/DisplayCard';
+
+import blogPostsData from "@/blogPostsData.json";
+
+import { DESCRIPTION_BLOG, TITLE_BLOG, USERNAME } from "@/config";
+import Head from 'next/head';
 
 function Blog(props) {
   const staticContentVariants = {
@@ -31,7 +38,6 @@ function Blog(props) {
 
   // Hooks
   let post = useSelector(selectCurrentPost);
-  const posts = useSelector(getPostsJson);
   useEffect(() => {
     if (post) {
       const element = document.getElementById(`post-${post.id}`);
@@ -39,10 +45,7 @@ function Blog(props) {
     }
   }, [post]);
 
-
-  if (!posts.posts) {
-    return <LinearProgress color="secondary" />
-  }
+  const { posts } = blogPostsData;
 
   return (
     <motion.div 
@@ -51,16 +54,27 @@ function Blog(props) {
       exit="out"
       variants={staticContentVariants}
     >
+      <Head>
+        
+        <title>{ TITLE_BLOG  }</title>
+        <meta name="description" content={DESCRIPTION_BLOG}/>
+      </Head>
     <Hidden mdUp>
       <Divider sx={(theme) => { return { marginBottom: theme.spacing(1), marginTop: theme.spacing(1) } }}/>
     </Hidden>
     <Masonry 
       columns={{ xs: 1, sm: 2, md: 3, lg: 3 }}
-      spacing={2}
+      spacing={0}
       >
         {
-          posts.posts.map((post, index) => (
-            <PostCard key={`post-${index}`} post={post}/>
+          posts.map((post, index) => (
+            <DisplayCard key={`post-${index}`} 
+              id={`post-${post.id}`}
+              title={post.title} 
+              text={post.description} 
+              created={post.created}
+              href={parsePostUrl(post.id, post.title)}
+              />
           ))
         }
       </Masonry>
@@ -69,3 +83,4 @@ function Blog(props) {
 }
 
 export default Blog;
+
