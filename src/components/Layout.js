@@ -67,7 +67,7 @@ function PageLayout(props) {
             }
 
           </Grid>
-          <Grid item xs={12} sm={isMain ? 6 : 8} md={8} lg={9}>
+          <Grid item xs={12} sm={isMain ? 6 : 8} md={8} lg={isMain ? 9 : 10}>
             {props.children}
           </Grid>
         </Grid>

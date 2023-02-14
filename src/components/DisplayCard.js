@@ -4,11 +4,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions, CardMedia } from '@mui/material';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from "react-intersection-observer";
+import { motion, useAnimation, useInView } from 'framer-motion';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useRef } from 'react';
 
 const PREFIX = 'DisplayCard';
 
@@ -37,7 +37,8 @@ const Root = styled('div')((
 const StaticCardContent = (props) => {
   const { title, text, textList, created } = props;
 
-  const [ref, inView] = useInView();
+  const ref = useRef(null)
+  const isInView = useInView(ref)
 
   const controls = useAnimation();
   const listContainer = {
@@ -56,28 +57,28 @@ const StaticCardContent = (props) => {
   }
 
   useEffect(() => {
-    if (inView) {
+    if (isInView) {
       controls.start("show");
     }
-  }, [controls, inView]);
+  }, [isInView]);
 
   return(
     <CardContent>
       {
         created && 
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="caption" color="text.primary">
           {created}
         </Typography>
       }
       {
         title && 
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5" component="h5">
           {title}
         </Typography>
       }
       {
         text &&
-        <Typography variant="body2" color="text.secondary">
+        <Typography paragraph variant='body1' color="text.secondary">
           {text}
         </Typography>
       }
@@ -90,7 +91,8 @@ const StaticCardContent = (props) => {
           initial="hidden"
           animate={controls}
           // animate="show"
-          variant="body2"
+          variant="body1"
+          
           style={{
             padding: 0
           }}
@@ -153,7 +155,7 @@ export default function DisplayCard(props) {
           href ? (
             <div id={id ? id : undefined}>
               <Link href={href}>
-                <CardActionArea>
+                <CardActionArea >
                   <StaticCardContent {...props} />
                 </CardActionArea>
               </Link>

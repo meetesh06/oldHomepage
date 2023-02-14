@@ -13,7 +13,7 @@ export const DESCRIPTION_HOME = "Hey there! I'm a research scholar @IIT Mandi wo
 
 export const ABOUTUSER = "Hey there! I'm a research scholar @IIT Mandi working in the area of compilers. My latest work focuses on a JIT compiler for the R Programming Language where I tackle the problems of warmup times and deoptimization overheads. I also love to code in React, like this website. Apart from computers I also tinker a lot with Raspberry Pi's, Arduinos, etc in my free time.";
 
-export const GETINTOUCHTEXT = "Feel free to get in touch with me regarding anything :) [meeteshmehta4@gmail.com]";
+export const GETINTOUCHTEXT = "Always looking forward to new emails :)";
 export const CONTACTLINKS = [
   ["mailto:meeteshmehta4@gmail.com","Email"],
   ["https://www.linkedin.com/in/meetesh06/","LinkedIn"],
